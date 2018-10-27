@@ -1,4 +1,5 @@
-
+/* 	Caroline Aparecida de Paula Silva 
+ 	Isabela Sayuri Matsumoto 		*/
 package comp;
 
 import java.io.PrintWriter;
@@ -143,13 +144,14 @@ public class Compiler {
 
 	private void classDec() {
 		if ( lexer.token == Token.ID && lexer.getStringValue().equals("open") ) {
-			// open class
+
 		}
 		if ( lexer.token != Token.CLASS ) error("'class' expected");
 		lexer.nextToken();
 		if ( lexer.token != Token.ID )
 			error("Identifier expected");
 		String className = lexer.getStringValue();
+
 		lexer.nextToken();
 		if ( lexer.token == Token.EXTENDS ) {
 			lexer.nextToken();
@@ -159,8 +161,19 @@ public class Compiler {
 
 			lexer.nextToken();
 		}
+		
+		if (lexer.token != Token.LEFTCURBRACKET)
+			error("'{' expected");
+		
+		lexer.nextToken();
 
 		memberList();
+		
+		if (lexer.token != Token.RIGHTCURBRACKET)
+			error("'}' bracket expected");
+		
+		lexer.nextToken();
+		
 		if ( lexer.token != Token.END)
 			error("'end' expected");
 		lexer.nextToken();
@@ -203,8 +216,8 @@ public class Compiler {
 			lexer.nextToken();
 
 		}
-		else if ( lexer.token == Token.IDCOLON ) {
-			// keyword method. It has parameters
+		else if ( lexer.token == Token.IDCOLON ) {			
+			parameterList();
 
 		}
 		else {
@@ -225,6 +238,25 @@ public class Compiler {
 		}
 		next();
 
+	}
+	
+	private void parameterList() {
+		
+		while (true) {	
+			
+			type();
+			
+			if (lexer.token != Token.ID) 
+				error("Identifier expected");
+			
+			lexer.nextToken();
+			
+			if (lexer.token == Token.COMMA) 
+				lexer.nextToken();
+			else
+				break;
+		}
+		
 	}
 
 	private void statementList() {
@@ -360,9 +392,142 @@ public class Compiler {
 	}
 
 	private void expr() {
+		
+		simpleExpr();
+		if (lexer.token == Token.EQ || lexer.token == Token.LT || lexer.token == Token.GT || 
+			lexer.token == Token.LE || lexer.token == Token.GE || lexer.token == Token.NEQ) {
+			lexer.nextToken();
+			simpleExpr();
+		}
+
+	}
+	
+	private void simpleExpr() {
+		
+		sumSubExpr();
+		while (lexer.token == Token.PLUS) {
+			lexer.nextToken();
+			if (lexer.token == Token.PLUS) {
+				lexer.nextToken();
+				sumSubExpr();
+			}
+		}
+	}
+	
+	private void sumSubExpr( ) {
+		
+		term();
+		
+		while (lexer.token == Token.PLUS || lexer.token == Token.MINUS || lexer.token == Token.OR) {
+			lexer.nextToken();
+			term();
+		}
+		
+	}
+	
+	private void term() {
+		
+		signalFactor();
+		
+		while (lexer.token == Token.MULT || lexer.token == Token.DIV || lexer.token == Token.AND) {
+			lexer.nextToken();
+			signalFactor();
+		}
+	}
+	
+	private void signalFactor() {
+		
+		if (lexer.token == Token.PLUS || lexer.token == Token.MINUS) 
+			lexer.nextToken();
+		
+		factor();
+		
+	}
+	
+	private void factor() {
+		
+		if (lexer.token == Token.RIGHTPAR) {
+			lexer.nextToken();
+			expr();
+			if (lexer.token != Token.LEFTPAR) 
+				error("') expected");
+			lexer.nextToken();
+		} else if (lexer.token == Token.NOT) {
+			lexer.nextToken();
+			factor();
+		} else if (lexer.token == Token.NULL) {
+			lexer.nextToken();
+		} else if (lexer.token == Token.ID) {
+			lexer.nextToken();
+			if(lexer.token == Token.DOT) {
+				lexer.nextToken();
+				if (lexer.token == Token.ID || lexer.token == Token.NEW) {
+					lexer.nextToken();
+				} else if (lexer.token == Token.IDCOLON) {
+					lexer.nextToken();
+					exprList();
+				} else {
+					error("'id' or 'new' expected");
+				}
+			}
+		} else if (lexer.token == Token.SUPER) {
+			lexer.nextToken();
+			if (lexer.token == Token.DOT) {
+				lexer.nextToken();
+				if (lexer.token == Token.IDCOLON) {
+					lexer.nextToken();
+					exprList();
+				} else if (lexer.token == Token.ID) {
+					lexer.nextToken();
+				} else 
+					error("'id expected");
+			} else
+				error("'.' expected after 'super'");
+		} else if (lexer.token == Token.SELF) {
+			lexer.nextToken();
+			if (lexer.token == Token.DOT) {
+				lexer.nextToken();
+				if (lexer.token == Token.IDCOLON) {
+					lexer.nextToken();
+					exprList();
+				} else if (lexer.token == Token.ID) {
+					lexer.nextToken();
+					if (lexer.token == Token.DOT) {
+						lexer.nextToken();
+						if (lexer.token == Token.IDCOLON) {
+							lexer.nextToken();
+							exprList();
+						} else if (lexer.token == Token.ID) {
+							lexer.nextToken();
+						} else
+							error("'id' expected");
+					}
+				} else 
+					error("'id' expected");
+			}
+		} else if (lexer.token == Token.READ) { //acho que tá errado, mas não existe o In no Token.java
+			lexer.nextToken();
+		} else {
+			basicValue();
+		}
+		
+	}
+	
+	private void basicValue() {
+		
+	}
+	
+	private void exprList() {
+		
+		expr();
+		while (lexer.token == Token.COMMA) {
+			lexer.nextToken();
+			expr();
+		}
 
 	}
 
+	
 	private void fieldDec() {
 		lexer.nextToken();
 		type();
@@ -379,6 +544,10 @@ public class Compiler {
 					break;
 				}
 			}
+			if (lexer.token != Token.SEMICOLON)
+				error("Semicolon expected");
+			
+			lexer.nextToken();
 		}
 
 	}
