@@ -36,9 +36,6 @@ public class Lexer {
 
 	}
 
-
-
-
     public void nextToken() {
         char ch;
 

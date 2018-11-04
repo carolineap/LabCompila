@@ -1,0 +1,29 @@
+/*
+Ricardo Mendes Leal Junior
+ricardomlealjr@gmail.com
+*/
+@nce
+
+/*
+  @filename   ok-sin09.kra
+
+  @comment    Testa :
+    - aceitacao de declaracao de metodos privados;
+    - chamada destes metodos usando this;
+    - uso de variaveis de instancia pelos metodos privados
+  */
+
+class A
+    private var Int n;
+    private var Int k;
+
+    
+end
+
+class Program
+  
+  
+
+end
+
+

@@ -1,0 +1,16 @@
+/* 
+Isabela Salmeron Boschi
+isabelasalmeron@msn.com
+*/
+@cep(7, "expressao ausente depois da ','", "Expression expected", "comp.Compiler.factor()")
+      
+class Program
+
+    func run {
+      
+        var Int i, j;
+        read(i, j, );
+       
+    }
+
+end

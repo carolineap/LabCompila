@@ -1,0 +1,21 @@
+/*
+Ricardo Mendes Leal Junior
+ricardomlealjr@gmail.com
+*/
+
+class A
+    public func m: Int x, Int y, Boolean ok -> Int {
+        return x + y;
+    }
+end
+
+class Program
+    func run {
+        var A a;
+        
+        a = A.new;
+        Out.println: a.m: 3, 4, true;
+    }
+end
+
+

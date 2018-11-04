@@ -1,0 +1,16 @@
+/* 
+Isabela Salmeron Boschi
+isabelasalmeron@msn.com
+*/
+
+@cep(6, "Falta a variavel", "Missing identifier", "comp.Compiler.localDec()")
+
+class Program
+  
+    func run {
+        
+        var Int ;
+       
+    }
+
+end
