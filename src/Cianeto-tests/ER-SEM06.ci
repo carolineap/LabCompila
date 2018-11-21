@@ -7,7 +7,7 @@
       
 class Program 
   
-    func run{
+    func run {
         0 = 0;       
     }
 

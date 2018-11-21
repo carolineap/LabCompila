@@ -61,10 +61,10 @@ class Program
       var Int ntrab;
       var Int nprov;
       
-      Out.println:"";
-      Out.println:"Ok-fib";
-      Out.println:"The output should be :";
-      Out.println:"0 <= x <= 10";
+      Out.println: "";
+      Out.println: "Ok-fib";
+      Out.println: "The output should be :";
+      Out.println: "0 <= x <= 10";
       a = A.new;
       
       //Realiza a leitura da nota da prova e nota do trabalho
@@ -74,13 +74,13 @@ class Program
       //Calcula a nota
       ans = a.calculaNota:ntrab,nprov;
       
-      if ans != 11{
+      if ans != 11 {
           Out.println:ans;
       } else {
-          if ans == 11 && nprov < 6{
+          if ans == 11 && nprov < 6 {
               a = B.new;
               Out.println:a.calculaNotaB:ntrab,nprov;
-          }else{
+          } else {
               Out.println:a.calculaNotaB:ntrab,nprov;
           }
       }

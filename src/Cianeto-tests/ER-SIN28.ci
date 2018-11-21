@@ -18,10 +18,10 @@ end
 class Program
 
     func run {
-       A a;
+       var A a;
 
-       a = new A();
-       a.cianeto();
+       a = A.new;
+       a.cianeto;
     }
 
 end

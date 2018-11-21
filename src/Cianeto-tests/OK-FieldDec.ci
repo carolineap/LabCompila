@@ -7,14 +7,14 @@
 /*
     @filename ok-FieldDec
 
-    @comment Verifica se aceita o ";" opicional da gramatica
-    	FieldDec ::= “var” Type IdList [ “;” ]
+    @comment Verifica se aceita o ";" opcional da gramatica
+        FieldDec ::= “var” Type IdList [ “;” ]
 */
 
 class Program {
 
-	var Int i
-	var Int j;
+    var Int i
+    var Int j;
 
     j = 2;
     i = 1 + j;

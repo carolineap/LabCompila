@@ -2,7 +2,7 @@
 Isabela Salmeron Boschi
 isabelasalmeron@msn.com
 */
-@cep(6, "i nao e instrucao", "Statement expected", "comp.Compiler.assignExprLocalDec()")
+@cep(6, "'i' nao e uma instrucao", "Statement expected", "comp.Compiler.assignExprLocalDec()")
 
 class Program
   

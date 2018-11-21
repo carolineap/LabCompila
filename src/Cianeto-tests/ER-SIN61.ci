@@ -9,12 +9,12 @@ luciane.silva@msn.com
 
 class Program
 
-    func run() {
+    func run {
         var Int i;
         i = 0;
         repeat
             i = i + 1;
-        until (i < 10;	
+        until (i < 10;  
     }
 
 end

@@ -16,7 +16,7 @@
 
 class A
 
-    func fib:Int n -> Int{
+    func fib: Int n -> Int {
         var A a;
         var Int left;
         var Int right;

@@ -1,0 +1,12 @@
+﻿/* A */
+
+class Program
+
+    func run {
+        var A a;
+
+        a = A.new;
+        a.m;
+    }
+    
+end

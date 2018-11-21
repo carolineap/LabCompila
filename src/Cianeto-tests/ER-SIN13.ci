@@ -1,9 +1,9 @@
 /*
-Joao Paulo Francisco de Paula
+João Paulo Francisco de Paula
 jpsobom@gmail.com
 */
 
-﻿@cep(4, "corpo do metodo ausente", "'{' expected", "comp.Compiler.methodDec()")
+﻿@cep(4, "Corpo do método ausente", "'{' expected", "comp.Compiler.methodDec()")
 
 class A
 

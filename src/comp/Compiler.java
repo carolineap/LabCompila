@@ -571,7 +571,7 @@ public class Compiler {
 			return factor();
 		} 
 		
-		if (lexer.token == Token.NULL) {
+		if (lexer.token == Token.NIL) {
 			lexer.nextToken();
 			return null; //não sei o que retornar aqui
 		} 
@@ -597,7 +597,8 @@ public class Compiler {
 			
 			return new PrimaryExpr(s);
 	
-		}
+		} 
+		
 		
 		//Falta PrimaryExpr
 		
@@ -783,7 +784,7 @@ public class Compiler {
 		return token == Token.FALSE || token == Token.TRUE
 				|| token == Token.NOT || token == Token.SELF
 				|| token == Token.LITERALINT || token == Token.SUPER
-				|| token == Token.LEFTPAR || token == Token.NULL
+				|| token == Token.LEFTPAR || token == Token.NIL
 				|| token == Token.ID || token == Token.LITERALSTRING;
 
 	}

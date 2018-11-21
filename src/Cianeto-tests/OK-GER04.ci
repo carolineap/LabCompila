@@ -17,12 +17,12 @@ class A
       var Boolean b;
       Out.print: 6;
       i = 1;
-      while ( i <= 5 ) {
+      while i <= 5 {
          Out.print: i;
          i = i + 1;
       }
       b = false;
-      while ( b != true ) {
+      while b != true {
          Out.print: 6;
          b = !b;
       }

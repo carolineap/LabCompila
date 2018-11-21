@@ -38,7 +38,7 @@ public enum Token {
     NEQ("!="),
     NEW("new"),
     NOT("!"),
-    NULL("null"),
+    NIL("nil"),
     OR("||"),
     OVERRIDE("override"),
     PLUS("+"),

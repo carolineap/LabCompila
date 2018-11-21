@@ -1,11 +1,10 @@
-/* Isabela Sayuri Matsumoto - 726539 isabelasassa@hotmail.com */
-
+// Isabela Sayuri Matsumoto - 726539 isabelasassa@hotmail.com
 @cep(5,"Expressao ausente apos ','","Expression expected", "comp.Compiler.factor()")
 
 class Program 
   
-    func run{
-        a.b: c, d, ; 
+    func run {
+        a.b: c, d,; 
                 
     }
 
