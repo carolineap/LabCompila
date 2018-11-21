@@ -3,7 +3,7 @@
     luccalafonte97@gmail.com
 */
 
-@cep(6, "Palavras chave não podem estar em maiúscula", 
+@cep(6, "Palavras chave nao podem estar em maiuscula", 
   "'public', 'private' or '}' expected", 
   "comp.Compiler.classDec()")
 

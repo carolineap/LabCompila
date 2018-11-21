@@ -3,7 +3,7 @@
     hicaarol@gmail.com
 */
 
-@cep(17, "Envio de mensagem 'a.m()' retorna um valor mas está sendo utilizado como uma instrução",
+@cep(17, "Envio de mensagem 'a.m()' retorna um valor mas este sendo utilizado como uma instrução",
         "Message send 'a.m()' returns a value that is not used",
 		"comp.Compiler.statement()")
 

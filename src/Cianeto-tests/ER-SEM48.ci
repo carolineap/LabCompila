@@ -1,4 +1,4 @@
-@cep(3, "Os nomes dos tipos básicos são reservados e não podem ser nomes de classes",
+@cep(3, "Os nomes dos tipos besicos são reservados e não podem ser nomes de classes",
     "Identifier expected", "comp.Comp.classDec()")
 
 class Int { //#

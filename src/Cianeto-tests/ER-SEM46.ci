@@ -1,4 +1,4 @@
-@cep(8, "'super' é utilizado somente quando há superclasse", 
+@cep(8, "'super' é utilizado somente quando he superclasse", 
    "'super' used in class 'Program' that does not have a superclass",
    "comp.Compiler.factor()")
   

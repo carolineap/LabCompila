@@ -4,7 +4,7 @@ evelincontatos@gmail.com
 
 */
 
-@cep(18,"Instrução 'i = a.m()' admite que m retorna algum valor", 
+@cep(18,"Instruçao 'i = a.m()' admite que m retorna algum valor", 
         "Expression expected in the right-hand side of assignment",
         "comp.Compiler.assignExprLocalDec()")
 

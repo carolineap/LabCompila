@@ -3,7 +3,7 @@
     luccalafonte97@gmail.com
 */
 
-@cep(9, "Construtores não tomam parâmetros", 
+@cep(9, "Construtores nao tomam parâmetros", 
   "')' expected", 
   "comp.Compiler.factor()")
 

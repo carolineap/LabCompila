@@ -1,9 +1,9 @@
 /*
-João Paulo Francisco de Paula
+Joao Paulo Francisco de Paula
 jpsobom@gmail.com
 */
 
-﻿@cep(5, "Tipo usado como variável", "Identifier expected", "comp.Compiler.localDec()")
+﻿@cep(5, "Tipo usado como variavel", "Identifier expected", "comp.Compiler.localDec()")
 
 class Program
 

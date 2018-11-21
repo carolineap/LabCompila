@@ -1,4 +1,4 @@
-@cep(5, "Número -2147483648 está fora dos limites permitidos", "literal int out of limits", "lexer.Lexer.nextToken()")
+@cep(5, "Número -2147483648 este fora dos limites permitidos", "literal int out of limits", "lexer.Lexer.nextToken()")
       
 class Program 
 

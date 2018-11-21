@@ -1,1 +1,1 @@
-for i in *.ci; do iconv -f UTF-8 -t ASCII//TRANSLIT; done
+for i in *.ci; do sed -i 'y/ãáǎàẽéěèĩíǐìõóǒòūúǔùãǘǚǜÃÁǍÀẼÉĚÈĨÍǏÌŌÓǑÒŪÚǓÙŨǗǙǛ/aaaaeeeeiiiioooouuuuüüüüAAAAEEEEIIIIOOOOUUUUÜÜÜÜ/' i; done

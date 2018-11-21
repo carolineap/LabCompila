@@ -1,4 +1,4 @@
-@cep(7, "readInt não toma parâmetros", 
+@cep(7, "readInt nao toma parâmetros", 
    "Command 'read' expects a variable", "comp.Compiler.readStatement())")
   
       

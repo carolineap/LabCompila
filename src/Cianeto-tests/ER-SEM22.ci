@@ -1,4 +1,4 @@
-@cep(7, "Número no lugar de nome de variável", 
+@cep(7, "Numero no lugar de nome de variavel", 
   "Identifier expected", "comp.Compiler.localDec()")
   
 

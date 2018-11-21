@@ -3,7 +3,7 @@
  * tadeucarlos07@gmail.com
  * ----------------------- */
 
-@cep(6, "Variável 'i' declarada duas vezes, mas não em sequência", 
+@cep(6, "Varievel 'i' declarada duas vezes, mas não em sequência", 
     "Variable 'i' is being redeclared",
     "comp.Compiler.localDec()")
   
