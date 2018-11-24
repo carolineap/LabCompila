@@ -1,6 +1,6 @@
 package ast;
 
-public class ObjectCreation extends Factor {
+public class ObjectCreation extends AuxFactor {
 	
 	public ObjectCreation(String id) {
 		this.id = id;

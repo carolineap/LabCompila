@@ -575,8 +575,20 @@ public class Compiler {
 			lexer.nextToken();
 			return null; //não sei o que retornar aqui
 		} 
+		//Falta PrimaryExpr
+		if (lexer.token == Token.LITERALINT || lexer.token == Token.LITERALSTRING)
+				return basicValue();
 		
-		if (lexer.token == Token.ID) {
+		if (lexer.token == Token.ID || lexer.token == Token.SUPER || lexer.token == Token.SELF || lexer.token == Token.IN){
+			return auxFactor();
+		} 
+		
+		error("Expression expected");
+		return null;
+		
+	}
+	private AuxFactor auxFactor() {
+		if(lexer.token == Token.ID) {
 			String s = lexer.getStringValue();
 			lexer.nextToken();
 			if (lexer.token == Token.DOT) {
@@ -584,33 +596,91 @@ public class Compiler {
 				if (lexer.token == Token.NEW) {
 					lexer.nextToken();
 					return new ObjectCreation(s);
-				} else if (lexer.token == Token.ID) {
-					
-			
+				} else if (lexer.token == Token.ID ) {
+					String s1 = lexer.getStringValue();
+					lexer.nextToken();
+					return new PrimaryExpr("id", s, s1);
 				} else if (lexer.token == Token.IDCOLON) {
-					
-					
+					String s1 = lexer.getStringValue();
+					lexer.nextToken();
+					ArrayList<Expr> listExp = exprList();
+					return new PrimaryExpr("id", s, s1, listExp);
 				} else {
 					error("id or idcolon expected");
 				}
 			} 
 			
-			return new PrimaryExpr(s);
-	
-		} 
-		
-		
-		//Falta PrimaryExpr
-		
-		if (lexer.token == Token.LITERALINT || lexer.token == Token.LITERALSTRING)
-			return basicValue();
-		
-		
-		error("Expression expected");
+			return new PrimaryExpr("id",s);
+		}else if(lexer.token == Token.SUPER){
+			lexer.nextToken();
+			if(lexer.token == Token.DOT) {
+				lexer.nextToken();
+				if(lexer.token == Token.ID) {
+					String s = lexer.getStringValue();
+					lexer.nextToken();
+					return new PrimaryExpr("super", s);
+				}else if(lexer.token == Token.IDCOLON) {
+					String s1 = lexer.getStringValue();
+					lexer.nextToken();
+					ArrayList<Expr> listExp = exprList();
+					return new PrimaryExpr("super", s1, listExp);
+				}else {
+					error("id or idcolon expected");
+				}
+			}else {
+				error("dot expected");
+			}
+		}else if(lexer.token == Token.SELF) {
+			lexer.nextToken();
+			if(lexer.token == Token.DOT) {
+				lexer.nextToken();
+				if(lexer.token == Token.ID) {
+					String s = lexer.getStringValue();
+					lexer.nextToken();
+					if(lexer.token == Token.DOT) {
+						lexer.nextToken();
+						if(lexer.token == Token.ID) {
+							String s1 = lexer.getStringValue();
+							lexer.nextToken();
+							return new PrimaryExpr("self",s ,s1);
+						}else if(lexer.token == Token.IDCOLON) {
+							String s1 = lexer.getStringValue();
+							lexer.nextToken();
+							ArrayList<Expr> listExp = exprList();
+							return new PrimaryExpr("self", s, s1, listExp);
+						}else {
+							error("id or idcolon expected");
+						}
+					}else {
+						return new PrimaryExpr("self", s);
+					}
+				}else if(lexer.token == Token.IDCOLON) {
+					String s1 = lexer.getStringValue();
+					lexer.nextToken();
+					ArrayList<Expr> listExp = exprList();
+					return new PrimaryExpr("self", s1, listExp);
+				}else {
+					error("id or idcolon expected");
+				}
+			}else {
+				error("dot expected");
+			}
+		}else if(lexer.token == Token.IN) {
+			return readExpr();
+		}
 		return null;
 		
 	}
-	
+	private ReadExpr readExpr() {
+		lexer.nextToken();
+		if(lexer.token == Token.DOT) {
+			
+		}else {
+			error("dot expected");
+		}
+		return null;
+		
+	}
 	private BasicValue basicValue() {
 	
 		if (lexer.token == Token.LITERALSTRING) {

@@ -25,6 +25,7 @@ public enum Token {
     ID("~ident"),
     IDCOLON("~ident:"),
     IF("if"),
+    IN("In"),
     INT("Int"),
     LE("<="),
     LEFTCURBRACKET("{"),
@@ -60,7 +61,7 @@ public enum Token {
     WHILE("while"),
     WRITE("write"),
     WRITELN("writeln");
-
+	
 	Token(String name) {
 		this.name = name;
 	}
