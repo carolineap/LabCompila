@@ -1,4 +1,4 @@
-@cep(8, "Tipo da variável 'i' é a variável 'k'", "Type 'k' was not found",
+@cep(8, "Tipo da varievel 'i' é a varievel 'k'", "Type 'k' was not found",
    "comp.Compiler.localDec()")
   
       

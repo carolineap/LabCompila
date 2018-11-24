@@ -1,5 +1,5 @@
 /*
-    Vinícius Furukawa Carvalho
+    Vinicius Furukawa Carvalho
     email: vinicius_furuka@hotmail.com.br
 */
 
@@ -8,13 +8,13 @@
 /*
   @filename   ok-calc.ci
 
-  @comment    Imprime a media da matéria de lab compiladores
+  @comment    Imprime a media da materia de lab compiladores
   
-    se NTrab >= 6 e NProv >= 6 então
+    se NTrab >= 6 e NProv >= 6 entao
       NFinal = (NTrab + NProv)/2
-    senão se NProv < 6 então
+    senao se NProv < 6 entao
             NFinal = menor entre NProv e NTrab
-      senão
+      senao
             NFinal = (2*NTrab + NProv)/3
 
 */

@@ -1,4 +1,4 @@
-@cep(4, "Comentário iniciado na linha 5 não foi fechado", 
+@cep(4, "Comenterio iniciado na linha 5 não foi fechado", 
     "Comment started in line 5 was not closed", "lexer.Lexer.nextToken()")
 
 

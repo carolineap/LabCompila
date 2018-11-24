@@ -3,7 +3,7 @@
     luccalafonte97@gmail.com
 */
 
-@cep(6, "Variável de instância pública",
+@cep(6, "Variavel de instância publica",
    "Attempt to declare public instance variable 'i'",
    "comp.Compiler.classDec()")
 

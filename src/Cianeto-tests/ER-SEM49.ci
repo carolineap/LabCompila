@@ -1,4 +1,4 @@
-@cep(7, "Tipos básicos não podem ser herdados, pois não são classes",
+@cep(7, "Tipos besicos não podem ser herdados, pois não são classes",
    "Class expected", "comp.Compiler.classDec()")
 
 class A 

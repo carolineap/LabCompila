@@ -3,7 +3,7 @@ Luciane Lopes
 luciane.silva@msn.com
 */
 
-@cep(11, "')' deve vir depois da expressão do 'until'}", 
+@cep(11, "')' deve vir depois da expressao do 'until'}", 
   "')' expected after 'until' expression", 
   "comp.Compiler.repeatStat()")
 

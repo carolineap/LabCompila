@@ -3,7 +3,7 @@ Giovanna Blasco Martin
 giovanna.blasco@hotmail.com
 */
 
-@cep(10, "Uso de variável de instância sem 'self'", "Identifier 'a' was not found", "comp.Compiler.factor()" )
+@cep(10, "Uso de varievel de instância sem 'self'", "Identifier 'a' was not found", "comp.Compiler.factor()" )
 
 class Program
   
