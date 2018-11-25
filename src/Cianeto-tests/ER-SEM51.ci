@@ -3,7 +3,7 @@ Giovana Vieira de Morais
 giovana.vmorais@gmail.com
 */
 
-@cep(19, "'put' redefinido em 'B' com parâmetros diferentes daqueles da superclasse A",
+@cep(19, "'put' redefinido em 'B' com parametros diferentes daqueles da superclasse A",
     "Method 'put' is being redefined in subclass 'B' with a signature different from the method of superclass 'A'",
     "comp.Compiler.methodDec()")
 

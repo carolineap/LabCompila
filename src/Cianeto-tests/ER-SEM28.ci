@@ -3,32 +3,4 @@
  * tadeucarlos07@gmail.com
  * ----------------------- */
 
-@cep(6, "Varievel 'i' declarada duas vezes, mas não em sequência", 
-    "Variable 'i' is being redeclared",
-    "comp.Compiler.localDec()")
-  
-
-class A {
-   
-    var Int i;
-    var Int j;
-    var Int i;
-   
-    func m {
-    }   
-
-}
-end
-
-class Program {
-   
-    func run {
-    var A a;
-      
-    a = A.new;
-    a.m;
-    }   
-
-}
-end
-
+@cep(6, "Vari

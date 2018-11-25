@@ -3,7 +3,7 @@ Joao Paulo Francisco de Paula
 jpsobom@gmail.com
 */
 
-﻿@cep(5, "Falta ';' apos declaraçao do 'i'", "Missing ';'", "comp.Compiler.localDec()")
+@cep(5, "Falta ';' apos declaracao do 'i'", "Missing ';'", "comp.Compiler.localDec()")
 
 class Program
 

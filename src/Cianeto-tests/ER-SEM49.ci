@@ -1,16 +1,1 @@
-@cep(7, "Tipos besicos não podem ser herdados, pois não são classes",
-   "Class expected", "comp.Compiler.classDec()")
-
-class A 
-end
-
-
-class B extends Int   //#
-
-end
-
-class Program 
-  
-    func run { }
-
-end
+@cep(7, "Tipos b

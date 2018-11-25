@@ -8,7 +8,7 @@
     @filename ok-FieldDec
 
     @comment Verifica se aceita o ";" opcional da gramatica
-        FieldDec ::= “var” Type IdList [ “;” ]
+        FieldDec ::= "var" Type IdList [ ";" ]
 */
 
 class Program {

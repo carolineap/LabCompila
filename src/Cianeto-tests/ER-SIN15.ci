@@ -3,7 +3,7 @@ Joao Paulo Francisco de Paula
 jpsobom@gmail.com
 */
 
-﻿@cep(5, "Nao pode existir comentario no meio de um numero", "')' expected", "comp.Compiler.writeStatement()")
+@cep(5, "Nao pode existir comentario no meio de um numero", "')' expected", "comp.Compiler.writeStatement()")
 
 class Program
 

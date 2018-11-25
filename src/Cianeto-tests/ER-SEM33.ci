@@ -3,23 +3,4 @@
     hicaarol@gmail.com
 */
 
-@cep(11, "Dois métodos públicos com mesmo nome", 
-  "Method 'm' is being redeclared",
-  "comp.Compiler.methodDec()")
-  
-
-class Program 
-
-    func m {
-    
-    }
-
-    func m {  
-    
-    }
-  
-    func run {
-    
-    }
-
-end
+@cep(11, "Dois m

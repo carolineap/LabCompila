@@ -1,8 +1,1 @@
-@cep(5, "Número -2147483648 este fora dos limites permitidos", "literal int out of limits", "lexer.Lexer.nextToken()")
-      
-class Program 
-
-    func run {
-       write( -2147483648 ); 
-    }
-end
+@cep(5, "N

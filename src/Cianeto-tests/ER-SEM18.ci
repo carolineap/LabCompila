@@ -1,13 +1,1 @@
-@cep(8, "Tipo da varievel 'i' é a varievel 'k'", "Type 'k' was not found",
-   "comp.Compiler.localDec()")
-  
-      
-class Program 
-  
-    func run {
-       var Int  k;
-       var k i;    //#
-    }
-
-end
-
+@cep(8, "Tipo da vari

@@ -1,15 +1,1 @@
-@cep(10, "Varievel de tipo besico não pode receber 'nil'", 
-     "Type error: 'nil' cannot be assigned to a variable of a basic type",
-     "comp.Compiler.assignExprLocalDec()")
-
-
-class Program 
-   
-   func run {
-      var Int i;
-      
-      i = nil;     
-   }   
-
-end
-
+@cep(10, "Vari
