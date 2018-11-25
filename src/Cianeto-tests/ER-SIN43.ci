@@ -3,7 +3,7 @@
     luccalafonte97@gmail.com
 */
 
-@ce(6, "nao existe a declaracao de packages",
+@cep(6, "nao existe a declaracao de packages",
    "function or field declaration expected", "comp.Compiler.classDec()")
 
 class Program 

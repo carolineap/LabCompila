@@ -144,7 +144,7 @@ public class Compiler {
 		String superclassName = null;
 		
 		if ( lexer.token == Token.ID && lexer.getStringValue().equals("open") ) {
-
+			lexer.nextToken();
 		}
 		if ( lexer.token != Token.CLASS ) error("'class' expected");
 		lexer.nextToken();
@@ -388,14 +388,14 @@ public class Compiler {
 
 	private RepeatStat repeatStat() {
 		next();
-		/*while ( lexer.token != Token.UNTIL && lexer.token != Token.RIGHTCURBRACKET && lexer.token != Token.END ) {
+	/*	while ( lexer.token != Token.UNTIL && lexer.token != Token.RIGHTCURBRACKET && lexer.token != Token.END ) {
 			statement();
-		}*/
+		}
 		if (lexer.token != Token.LEFTCURBRACKET) 
 			error("'{' expected");
-		next();
+		
+		next();*/
 		ArrayList<Statement> statList = statementList();
-		next();
 		check(Token.UNTIL, "'until' was expected");
 		next();
 		Expr e = expr();
@@ -576,7 +576,7 @@ public class Compiler {
 			return null; //não sei o que retornar aqui
 		} 
 		//Falta PrimaryExpr
-		if (lexer.token == Token.LITERALINT || lexer.token == Token.LITERALSTRING)
+		if (lexer.token == Token.LITERALINT || lexer.token == Token.LITERALSTRING || lexer.token == Token.TRUE || lexer.token == Token.FALSE)
 				return basicValue();
 		
 		if (lexer.token == Token.ID || lexer.token == Token.SUPER || lexer.token == Token.SELF || lexer.token == Token.IN){
@@ -672,9 +672,21 @@ public class Compiler {
 		
 	}
 	private ReadExpr readExpr() {
+		
 		lexer.nextToken();
 		if(lexer.token == Token.DOT) {
-			
+			lexer.nextToken();
+			if (lexer.token == Token.ID && (lexer.getStringValue().equals("readInt") || lexer.getStringValue().equals("readString"))) {
+				if (lexer.equals("readInt")) {
+					lexer.nextToken();
+					return new ReadExpr("Int");
+				} else {
+					lexer.nextToken();
+					return new ReadExpr("String");
+				}
+			} else {
+				error("readInt or readString expected");
+			}
 		}else {
 			error("dot expected");
 		}
@@ -682,6 +694,9 @@ public class Compiler {
 		
 	}
 	private BasicValue basicValue() {
+		
+		//System.out.println(lexer.getLiteralStringValue());
+
 	
 		if (lexer.token == Token.LITERALSTRING) {
 			String s = lexer.getLiteralStringValue();
@@ -695,7 +710,20 @@ public class Compiler {
 			return new BasicValue(i);
 		}
 		
-		//Falta parte do boolean
+		if (lexer.token == Token.TRUE) {
+			boolean b = true;
+			next();
+			return new BasicValue(b);
+
+		}		
+		
+		if (lexer.token == Token.FALSE) {
+			boolean b = false;
+			next();
+			return new BasicValue(b);
+		}
+		
+	
 		
 		error("Basic Value expected");
 		return null;

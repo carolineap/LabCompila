@@ -1,0 +1,12 @@
+Relatório do Compilador
+
+0 de um total de 1 erros que deveriam ser sinalizados não o foram (0%)
+1 erros foram sinalizados na linha errada (100%)
+Todos os erros que deveriam ter sido sinalizados o foram
+######################################################
+Erros que foram sinalizados na linha errada:
+
+Cianeto-tests/ER-SIN-EXTRA02.ci
+    correto:    41, end expected 
+    sinalizado: 42, 'end' expected
+

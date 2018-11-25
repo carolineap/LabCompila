@@ -1,1 +1,11 @@
-@cep(5, "Tipo ausente na declara
+@cep(5, "Tipo ausente na declaracao de parametros",
+  "Identifier expected", "comp.Compiler.paramDec()")
+
+class Program 
+  
+    func m: x { } 
+    
+    func run { }
+
+end
+

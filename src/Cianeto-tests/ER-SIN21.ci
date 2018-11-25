@@ -1,1 +1,12 @@
-@cep(8, "Falta ';' ap
+@cep(8, "Falta ';' após a última atribuição", "; expected")
+      
+class Program
+    func run {
+
+        var Int i;
+        i = 1;
+        while i <= 5 {
+            i = i + 1        
+        }
+    }
+end

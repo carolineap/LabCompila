@@ -3,7 +3,7 @@
 
 class Program 
     
-    private Int i;  ;    //#
+    private Int i;  ;    
   
     func run { } 
 

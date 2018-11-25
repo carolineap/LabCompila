@@ -1,1 +1,11 @@
-@cep(5, "';' na declara
+@cep(5, "';' na declaracao de parametros",
+  "')' expected", "comp.Compiler.methodDec()")
+
+class Program 
+  
+    func m Int x, Int y ; {   
+    }
+    
+    func run { }
+
+end

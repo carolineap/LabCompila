@@ -23,13 +23,16 @@ class A
         
         b = false;
         if (b) {
+            ;
         }
         else {
+            ;
         }
         while ( b )
             ;
         
         while ( b ) {
+            ;
         }
         i = ((1 * 4) + 3) - (5 / 2);
         b = false;

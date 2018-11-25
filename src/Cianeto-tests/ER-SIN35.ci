@@ -1,1 +1,11 @@
-@cep(5, "falta ',' na declara
+@cep(5, "falta ',' na declaracao dos parametros",
+   "')' expected", "comp.Compiler.methodDec")
+
+class Program 
+    
+    func m: Int x, Int y  Boolean ok  {  
+    }
+
+    func run { } 
+
+end
