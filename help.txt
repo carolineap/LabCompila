@@ -1,0 +1,15 @@
+Análise Sintática:
+Compiler.java
+Carol: 	método classDec() 
+		método fieldDec() 
+		método methodDec()
+		criei método paramaterList() (FormalParamDecl)
+		método expr();
+		criei método simpleExpr()
+		criei método sumSubExpr()
+		criei método term()
+		criei método signalFactor() (Não deu pra juntar com o signal porque o factor chama a si mesmo)
+		criei método factor() (Juntei aqui o Object Creation e o PrimaryExpr, ficou uma tripona tem que otimizar)
+		criei método basicValue() (
+		criei método exprList()
+		VERIFICAR ASSIGN ERRO SIN04
