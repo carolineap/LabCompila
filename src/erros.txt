@@ -36,4 +36,5 @@ Análise semântica:
 - erro se função não é void e não possuí return
 - erro se a variável foi passada como parâmetro e foi declarada novamente
 - erro se a variável foi utilizada no self.bla e o bla não existe na classe
+- erro se não tiver classe chamada Program com método público e sem parâmetro
 

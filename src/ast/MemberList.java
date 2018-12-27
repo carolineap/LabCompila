@@ -8,6 +8,14 @@ public class MemberList {
 		this.qualifier = qualifier;
 	}
 	
+	public Member getMember() {
+		return this.member;
+	}
+	
+	public Token getQualifier() {
+		return this.qualifier;
+	}
+	
 	private Member member;
 	private Token qualifier;
 	

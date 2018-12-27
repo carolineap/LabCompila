@@ -2,16 +2,24 @@
   "Missing 'return' statement in method 'm'", 
   "comp.Compiler.methodDec()" )
  
- 
-      
-class Program 
 
-    var Int i;
+class Amora 
+
+    var Int j;
   
-    func run {
+    func nchbh: Int a, Int b {
 
       self.j = 2;
 
     }
 
+end
+
+class Program
+
+  private func run -> Int {
+    ;
+
+    return 2;
+  }
 end

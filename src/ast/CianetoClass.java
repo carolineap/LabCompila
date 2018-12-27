@@ -8,15 +8,11 @@ public class CianetoClass extends Type {
       super(name);
    }
 
-   @Override
-   public String getCname() {
-      return getName();
-   }
 
    private String name;
    private CianetoClass superclass;
    // private FieldList fieldList;
    // private MethodList publicMethodList, privateMethodList;
-   // métodos públicos get e set para obter e iniciar as variáveis acima,
-   // entre outros métodos
+   // mï¿½todos pï¿½blicos get e set para obter e iniciar as variï¿½veis acima,
+   // entre outros mï¿½todos
 }

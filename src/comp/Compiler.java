@@ -39,6 +39,7 @@ public class Compiler {
 				while ( lexer.token == Token.ANNOT ) {
 					metaobjectAnnotation(metaobjectCallList);
 				}
+				
 				//classDec();
 				CianetoClassList.add(classDec());
 				
@@ -69,6 +70,43 @@ public class Compiler {
 			catch( CompilerError e) {
 			}
 		}
+		
+		if (!thereWasAnError) {			
+			
+			boolean flag = false;
+		
+			for (ClassDec c : CianetoClassList) {
+	
+				if (c.getName().equals("Program")) {
+					
+					ArrayList<MethodDec> methods = c.getMethods();
+										
+					for (MethodDec m: methods) {
+						if (m.getMethodName().equals("run") && m.getQualifier() == Token.PUBLIC) {
+
+							if (m.getParamList().isEmpty()) {
+								flag = true;
+							} else {
+								break;
+							}
+						}
+						
+					}
+					
+					break;
+					
+				}
+			}
+			
+			if (flag == false) {
+				try {
+					error("Every program must have a class named 'Program' with a public parameterless method called 'run'");
+				}
+				catch( CompilerError e) {
+				}
+			}
+		}
+
 		return program;
 	}
 
@@ -161,48 +199,57 @@ public class Compiler {
         }
          
 		lexer.nextToken();
+		
+		
 		if ( lexer.token == Token.EXTENDS ) {
+			
 			lexer.nextToken();
+			
 			if ( lexer.token != Token.ID )
 				error("Identifier expected");
 			
 			superclassName = lexer.getStringValue();
-
+			
 			lexer.nextToken();
 		}
 		
-		ArrayList<MemberList> ml = memberList();
+		ArrayList<Member> ml = memberList();
 		
 		if (ml == null || lexer.token != Token.END)
 			error("Class member or 'end' expected");
 		lexer.nextToken();
 		
 		symbolTable.removeClassIdent();
+		
+
 			
 		ClassDec classDec = new ClassDec(className, superclassName, ml, isInheritable); 
 
         symbolTable.putInGlobal(className, classDec);
         
+        
 		return classDec;
 	}
 
-	private ArrayList<MemberList> memberList() {
+	private ArrayList<Member> memberList() {
 		
-		ArrayList<MemberList> ml = new ArrayList<>();
+		ArrayList<Member> ml = new ArrayList<>();
 		
 		while ( true ) {
+			
 			Token q = qualifier();
+			
 			if ( lexer.token == Token.VAR ) {
-				ml.add(new MemberList(fieldDec(), q));
+				ml.add(fieldDec(q));
 			}
 			else if ( lexer.token == Token.FUNC ) {
-				ml.add(new MemberList(methodDec(), q));
+				ml.add(methodDec(q));
 			}
 			else {
 				break;
 			}
 		}
-		
+
 		return ml;
 	}
 
@@ -220,12 +267,13 @@ public class Compiler {
 		}
 	}
 
-	private MethodDec methodDec() {
+	private MethodDec methodDec(Token q) {
+		
 		
 		String id = null;
-		ArrayList<Param> paramList = null;
+		ArrayList<Param> paramList = new ArrayList<>();
 		Type returnType = null;
-		ArrayList<Statement> statList = null;
+		ArrayList<Statement> statList = new ArrayList<>();
 		
 		lexer.nextToken();
 		if ( lexer.token == Token.ID ) {
@@ -280,7 +328,7 @@ public class Compiler {
 
         symbolTable.removeLocalIdent();
         
-		return new MethodDec(id, paramList, returnType, statList);
+		return new MethodDec(id, paramList, returnType, statList, q);
 	}
 	
 	private ArrayList <Param> parameterList() {
@@ -309,12 +357,14 @@ public class Compiler {
 	}
 
 	private ArrayList<Statement> statementList() {
+	
 		
 		ArrayList<Statement> listStmt = new ArrayList<>();
 		  // only '}' is necessary in this test
 		while ( lexer.token != Token.RIGHTCURBRACKET && lexer.token != Token.END && lexer.token != Token.UNTIL ) {
 			listStmt.add(statement());
 		}
+		
 		
 		return listStmt;
 	}
@@ -367,8 +417,8 @@ public class Compiler {
 		return stmt;
 	}
 	
-	private AssignExpr assignExpr() {		
-		
+	private AssignExpr assignExpr() {	
+				
 		AssignExpr a = null;
 			
 		Expr left = expr();
@@ -384,6 +434,7 @@ public class Compiler {
 			if (right == null)
 				error("Expression expected");
 		}
+		
 		
 		return new AssignExpr(left, right);
 	}
@@ -532,7 +583,11 @@ public class Compiler {
 
 	private Expr expr() {
 		
+		
 		SimpleExpr left = simpleExpr();
+		
+		
+
 		
 		if (left == null) return null;
 		
@@ -553,6 +608,8 @@ public class Compiler {
 	private SimpleExpr simpleExpr() {
 		
 		SumSubExpr left = sumSubExpr();
+		
+
 		
 		if (left == null) return null;
 		
@@ -576,6 +633,8 @@ public class Compiler {
 		
 		Term left = term();
 		
+
+		
 		if (left == null) return null;
 		
 		while (lexer.token == Token.PLUS || lexer.token == Token.MINUS || lexer.token == Token.OR) {
@@ -592,6 +651,8 @@ public class Compiler {
 	private Term term() {
 		
 		SignalFactor left = signalFactor();
+		
+
 		
 		if (left == null) return null;
 		
@@ -610,12 +671,16 @@ public class Compiler {
 		
 		Token op = null;
 		
+
+		
 		if (lexer.token == Token.PLUS || lexer.token == Token.MINUS) {
 			op = lexer.token;
 			lexer.nextToken();
 		}
 		
 		Factor right = factor();
+		
+
 		
 		if (right == null) 
 			return null;
@@ -628,6 +693,8 @@ public class Compiler {
 		
 		Expr e;
 		ArrayList<Expr> eList;
+		
+
 	
 		
 		if (lexer.token == Token.LEFTPAR) {
@@ -711,9 +778,11 @@ public class Compiler {
 				lexer.nextToken();
 				if(lexer.token == Token.ID) {
 					String s = lexer.getStringValue();
+
 					if (symbolTable.getInClass(s) == null) {
 						error("Class doesn't have the member '" + s + " '");
-					}
+					} 
+					
 					lexer.nextToken();
 					if(lexer.token == Token.DOT) {
 						lexer.nextToken();
@@ -832,7 +901,7 @@ public class Compiler {
 	}
 
 	
-	private FieldDec fieldDec() {
+	private FieldDec fieldDec(Token q) {
 		
 		lexer.nextToken();
 		Type type = type();
@@ -871,7 +940,7 @@ public class Compiler {
 			lexer.nextToken();
 		}
 		
-		return new FieldDec(type, idList);
+		return new FieldDec(type, idList, q);
 
 	}
 
@@ -975,6 +1044,48 @@ public class Compiler {
 		int value = lexer.getNumberValue();
 		lexer.nextToken();
 		return new LiteralInt(value);
+	}
+
+	private boolean checkType(String type1, String type2) {
+		
+		if (type1 == type2) {
+			return true;
+		}
+
+		if (type1 == "String" && type2 == "nil") {
+			return true;
+		}
+		
+		ClassDec c1 = (ClassDec) symbolTable.getInGlobal(type1);
+		ClassDec c2 = (ClassDec) symbolTable.getInGlobal(type1);
+		
+		if (c1 == null || c2 == null) {
+			return false;
+		} else {
+			ClassDec c = isSubclass(c1, c2);
+			if (c != null) {
+				return true;
+			}
+		}
+		
+		return false;
+		
+
+	}
+	
+	private ClassDec isSubclass(ClassDec c1, ClassDec c2) {
+		
+		ClassDec c = c2;
+		
+		while (c != null && c != c1) {
+			c = (ClassDec) symbolTable.getInGlobal(c.getParentName());
+		}
+		
+		if (c != null && c == c1) {
+			return c;
+		}
+		
+		return null;
 	}
 
 	private static boolean startExpr(Token token) {
