@@ -1,0 +1,17 @@
+@cep(16, "Método com tipo de retorno deve ter pelo menos um comando return",
+  "Missing 'return' statement in method 'm'", 
+  "comp.Compiler.methodDec()" )
+ 
+ 
+      
+class Program 
+
+    var Int i;
+  
+    func run {
+
+      self.j = 2;
+
+    }
+
+end

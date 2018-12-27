@@ -2,12 +2,20 @@ package ast;
 
 public class Param {
 
-	public Param(Type type, String id) {
+	public Param(Type type, String name) {
 		this.type = type;
-		this.id = id;
+		this.name = name;
 	}
 	
+	
+	public Type getType() {
+		return type;
+	}
+	public String getName() {
+		return name;
+	}
+
 	private Type type;
-	private String id;
+	private String name;
 	
 }

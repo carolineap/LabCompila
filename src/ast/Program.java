@@ -5,7 +5,7 @@ import comp.CompilationError;
 
 public class Program {
 
-	public Program(ArrayList<CianetoClass> classList, ArrayList<MetaobjectAnnotation> metaobjectCallList, 
+	public Program(ArrayList<ClassDec> classList, ArrayList<MetaobjectAnnotation> metaobjectCallList, 
 			       ArrayList<CompilationError> compilationErrorList) {
 		this.classList = classList;
 		this.metaobjectCallList = metaobjectCallList;
@@ -19,7 +19,7 @@ public class Program {
 	public void genC(PW pw) {
 	}
 	
-	public ArrayList<CianetoClass> getClassList() {
+	public ArrayList<ClassDec> getClassList() {
 		return classList;
 	}
 
@@ -38,7 +38,7 @@ public class Program {
 	}
 
 	
-	private ArrayList<CianetoClass> classList;
+	private ArrayList<ClassDec> classList;
 	private ArrayList<MetaobjectAnnotation> metaobjectCallList;
 	
 	ArrayList<CompilationError> compilationErrorList;

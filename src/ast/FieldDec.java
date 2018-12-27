@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class FieldDec extends Member {
 	
-	public FieldDec(Type type, ArrayList<Token> idList) {
+	public FieldDec(Type type, ArrayList<Variable> idList) {
 		this.type = type;
 		this.idList = idList;
 	}
 	
 	private Type type;
-	private ArrayList<Token> idList;
+	private ArrayList<Variable> idList;
 
 }

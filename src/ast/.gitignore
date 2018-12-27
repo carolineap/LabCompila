@@ -46,3 +46,5 @@
 /WriteStat.class
 /AuxFactor.class
 /ReadExpr.class
+/Variable.class
+/TypeClass.class

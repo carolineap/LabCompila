@@ -1,5 +1,39 @@
-Erros que estão dando errado: 04, 10, 30 (QUE QUE ISSO?), 40, 44
+--------------------------------------------------------------------------------------------------------------------
+ER-SIN
+
+Erros que estão dando errado: 04, 10, 30, 40, 44
 ERRO 04: não pode ter 'i;'' mesmo? pela gramática, acho que dá, não?
 ERRO 10: se readInt não é reservada acho que isso não é erro
+ERRO 30: parece que o lexer que está errado e não reconhece '#' como inválido
+ERRO 40/44: pode ter esse public sim, não pode?
 
-Erros que estão certos, mas estão dando na linha errada 11, 17, 18, 20, 21, 22,  41, 43, 59, EXTRA, EXTRA01, EXTRA02
+Alguns erros estão certos, porém na linha errada. Por exemplo, erro de ; (mas se o gcc faz isso, quem somos nós)
+
+--------------------------------------------------------------------------------------------------------------------
+OK-SIN
+
+Todos os arquivos estão dando certo :)
+
+------------------------------------------------------------------------------------------------------------------
+
+ERR-LEX
+
+02: precisa semântica
+03: dá erro de execução (?)
+
+------------------------------------------------------------------------------------------------------------------
+
+OK-LEX
+
+Todos os arquivos estão dando certo :)
+
+-----------------------------------------------------------------------------------------------------------------
+Análise semântica:
+
+- coloquei as classes no table Global e dá erro se já foi declarada
+- erro se declara alguma variável com tipo != de BasicType e diferente de alguma classe já declarada
+- erro se declara variável já declarada
+- erro se função não é void e não possuí return
+- erro se a variável foi passada como parâmetro e foi declarada novamente
+- erro se a variável foi utilizada no self.bla e o bla não existe na classe
+
