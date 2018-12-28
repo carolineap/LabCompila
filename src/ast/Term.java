@@ -1,5 +1,5 @@
 package ast;
 
-public class Term extends SumSubExpr {
-
+public abstract class Term extends SumSubExpr {
+	abstract public Type getType();
 }

@@ -4,14 +4,22 @@ import java.util.ArrayList;
 
 public class FieldDec extends Member {
 	
-	public FieldDec(Type type, ArrayList<Variable> idList, Token qualifier) {
-		this.type = type;
-		this.idList = idList;
-		this.qualifier = qualifier;
+	public FieldDec(Variable field) {
+		this.field = field;
 	}
 	
-	private Type type;
-	private ArrayList<Variable> idList;
-	private Token qualifier;
+	public String getFieldName() {
+		return field.getName();
+	}
+	
+	public Type getType() {
+		return field.getType();
+	}
+	
+	public Token getQualifier() {
+		return field.getQualifier();
+	}
+	
+	private Variable field;
 
 }

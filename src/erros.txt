@@ -28,6 +28,14 @@ OK-LEX
 Todos os arquivos estão dando certo :)
 
 -----------------------------------------------------------------------------------------------------------------
+
+ERR-SEM
+
+Feito: 01/03/04/05/08/09/11/12/13/14/15/17/18/19/20/21/22/23/24/25/27/28/35
+
+------------------------------------------------------------------------------------------------------------------
+
+
 Análise semântica:
 
 - coloquei as classes no table Global e dá erro se já foi declarada
@@ -37,4 +45,16 @@ Análise semântica:
 - erro se a variável foi passada como parâmetro e foi declarada novamente
 - erro se a variável foi utilizada no self.bla e o bla não existe na classe
 - erro se não tiver classe chamada Program com método público e sem parâmetro
+- erro se superclasse não é 'herdável' e se a superclasse não existe
+- função que verifica que uma classe é subclasse de outra
+- erro se tipo do retorno é diferente do tipo da função
+- erro se expressão do if não é boolean
+- erro se expressão do while não é boolean
+- erro se expressão do repeat não é boolean
+- erro se variável (apenas variável, não objeto) não foi declarada
+- erro se chama método da superclasse inexistente, ou com parâmetros errados
+
+
+
+
 

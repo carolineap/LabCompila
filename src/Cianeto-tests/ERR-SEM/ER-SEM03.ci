@@ -5,7 +5,7 @@ class Program
   
     func run {
        var Int i;
-       var Int i;   //#
+       var Int i;   
        
        i = In.readInt;
        Out.println: i;

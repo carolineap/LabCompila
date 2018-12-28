@@ -5,7 +5,7 @@
 class Program 
   
     func run {
-       var Int Boolean;   //#
+       var Int Boolean;   
     }
 
 end

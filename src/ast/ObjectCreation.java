@@ -2,10 +2,15 @@ package ast;
 
 public class ObjectCreation extends AuxFactor {
 	
-	public ObjectCreation(String id) {
-		this.id = id;
+	public ObjectCreation(ClassDec c) {
+		this.type = new TypeClass(c.getName());
 	}
-
-	private String id;
+	
+	@Override
+	public Type getType() {
+		return type;
+	}
+	    
+	private Type type;
 
 }

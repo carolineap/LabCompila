@@ -7,11 +7,11 @@
 	"Identifier expected", "comp.Compiler.localDec()")
   
 
-class Program {
+class Program 
   
     func run {
 		var Int write;
 	}
 
-}
+
 end

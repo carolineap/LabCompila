@@ -2,12 +2,13 @@ package ast;
 
 import java.util.ArrayList;
 
+import lexer.Token;
+
 public class ClassDec {
 	
-	public ClassDec(String name, String parent, ArrayList<Member> memberList, boolean isInheritable) {
+	public ClassDec(String name, ClassDec parent, boolean isInheritable) {
 		this.name = name;
 		this.parent = parent;
-		this.memberList = memberList;
 		this.isInheritable = isInheritable;
 	}
 	
@@ -15,30 +16,62 @@ public class ClassDec {
 		return name;
 	}
 	
-	public String getParentName() {
+	public ClassDec getParent() {
 		return this.parent;
+	}
+	
+	public boolean getInheritable() {
+		return this.isInheritable;
 	}
 	
 	public ArrayList<MethodDec> getMethods() {
 		
 				
 		ArrayList<MethodDec> methods = new ArrayList<>();
-	
-		for (Member m: memberList) {
 			
+		for (Member m: memberList) {
+		
 			if (m instanceof MethodDec) {
-				methods.add((MethodDec) m);
+				MethodDec method = (MethodDec) m;
+				if (method.getQualifier() == Token.PUBLIC)	
+					methods.add(method);
 			}
 			
 		}
-		
 		
 		return methods;
 		
 	}
 	
+	public ArrayList<FieldDec> getFields() {
+		
+		
+		ArrayList<FieldDec> fields = new ArrayList<>();
+			
+		for (Member f: memberList) {
+		
+			if (f instanceof FieldDec) {
+				FieldDec field = (FieldDec) f;
+				if (field.getQualifier() == Token.PUBLIC)	
+					fields.add(field);
+			}
+			
+		}
+		
+		return fields;
+		
+	}
+	
+	public void setMemberList(ArrayList<Member> memberList) {
+		this.memberList = memberList;
+	}
+	
+	public ArrayList<Member> getMembers() {
+		return this.memberList;
+	}
+	
 	private String name;
-	private String parent;
+	private ClassDec parent;
 	private ArrayList<Member> memberList;
 	private boolean isInheritable;
 

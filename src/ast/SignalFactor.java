@@ -1,5 +1,5 @@
 package ast;
 
-public class SignalFactor extends Term {
-
+abstract public class SignalFactor extends Term {
+	abstract public Type getType();
 }

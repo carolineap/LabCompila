@@ -3,12 +3,12 @@
  * tadeucarlos07@gmail.com
  * ----------------------- */
 
-@cep(6, "Variável 'i' declarada duas vezes, mas não em sequência", 
+@cep(9, "Variável 'i' declarada duas vezes, mas não em sequência", 
     "Variable 'i' is being redeclared",
     "comp.Compiler.localDec()")
   
 
-class A {
+class A 
    
     var Int i;
     var Int j;
@@ -17,10 +17,10 @@ class A {
     func m {
     }   
 
-}
+
 end
 
-class Program {
+class Program 
    
     func run {
     var A a;
@@ -29,6 +29,6 @@ class Program {
     a.m;
     }   
 
-}
+
 end
 

@@ -8,7 +8,7 @@ class Program
    func run {
       var Boolean b;
       b = false;
-      Out.println: -b;  //#
+      Out.println: -b;  
    }   
 
 end

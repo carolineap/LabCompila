@@ -23,7 +23,14 @@ public class SymbolTable {
      }
 
      public Object getInClass( Object key ) {
-        return classTable.get(key);
+    	 
+    	 Object result;
+    	 
+    	 if ((result = localTable.get(key)) != null) {
+    		 return result;
+    	 }
+
+    	 else return classTable.get(key);
      }
     
     public Object getInLocal( Object key ) {

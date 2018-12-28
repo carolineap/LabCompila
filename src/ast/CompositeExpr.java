@@ -3,16 +3,27 @@ import lexer.*;
 
 public class CompositeExpr extends Expr {
 
-	@Override
-	public void genC(PW pw, boolean putParenthesis) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Type rightType = right.getType();
+		Type leftType = left.getType();
+		
+		
+	if	(this.op == Token.GT || this.op == Token.GE || this.op == Token.LT || this.op == Token.LE) {
+		if (leftType == Type.intType && rightType == leftType) {
+			return Type.booleanType;
+		}
+	} else if (this.op == Token.EQ || this.op == Token.NEQ) {
+		if (leftType == rightType) {
+			return Type.booleanType;
+		}
+		if ((leftType == Type.stringType && rightType == Type.nilType) || (rightType == Type.stringType && leftType == Type.nilType)) {
+			return Type.booleanType;
+		}
+	}
+	
+	return Type.undefType;
+		
 	}
 	    
     public CompositeExpr(Expr left, Token op, Expr right) {

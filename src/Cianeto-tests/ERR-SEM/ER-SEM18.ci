@@ -6,8 +6,8 @@ class Program
   
     func run {
        var Int  k;
-       var k i;    //#
-    }
+       var k i;      
+     }
 
 end
 

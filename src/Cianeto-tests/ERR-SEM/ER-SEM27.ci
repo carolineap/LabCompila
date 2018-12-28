@@ -12,11 +12,10 @@ class A extends A {
 }
 end
 
-class Program {
+class Program 
    
 	func run() {
 	}   
 
-}
 end
 

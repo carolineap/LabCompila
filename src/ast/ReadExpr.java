@@ -2,10 +2,14 @@ package ast;
 
 public class ReadExpr extends AuxFactor{
 
-	public ReadExpr(String readType) {
+	public ReadExpr(Type readType) {
 		this.readType = readType;
 	}
 
-	private String readType;
+	public Type getType() {
+		return this.readType;
+	}
+	
+	private Type readType;
 	
 }

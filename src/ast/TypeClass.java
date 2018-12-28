@@ -1,11 +1,9 @@
 package ast;
 
 public class TypeClass extends Type {
-
-	public TypeClass(String name) {
-		super(name);
+	 
+	public TypeClass(String classType) {		
+		super(classType);
 	}
 	
-	private String name;
-
 }

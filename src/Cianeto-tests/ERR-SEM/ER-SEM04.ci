@@ -8,7 +8,7 @@ class Program
    func run {
       var Int i;
       
-      i = false;   //#
+      i = false;   
       Out.println: i;
    }   
 

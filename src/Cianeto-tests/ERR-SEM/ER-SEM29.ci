@@ -8,25 +8,25 @@
   "comp.Compiler.methodDec() or comp.Compiler.classDec()")
 
 
-class A {
+class A 
     
     func put {
     }   
 
-}
+
 end
 
 
-class B extends A {
+class B extends A 
    
     func put: Int x {
     }   
 
-}
+
 end
 
 
-class Program {
+class Program 
    
     func run {
         var A a;
@@ -35,7 +35,7 @@ class Program {
         a.put;
     }   
 
-}
+
 end
 
 

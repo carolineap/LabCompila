@@ -5,7 +5,7 @@
 class Program 
   
     func run {
-       var Int false;  //#
+       var Int false;  
     }
 
 end

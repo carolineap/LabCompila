@@ -5,7 +5,7 @@
 class Program 
   
     func run {
-       var Int 0;    //#
+       var Int 0;    
     }
 
 end

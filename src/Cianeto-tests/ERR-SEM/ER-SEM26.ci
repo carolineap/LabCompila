@@ -8,13 +8,13 @@
 	"comp.Compiler.statement())")
   
 
-class Program {
+class Program 
    
 	func run {
 		break;
 	}   
 
-}
+
 end
 
 
