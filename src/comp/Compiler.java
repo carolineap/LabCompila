@@ -227,6 +227,8 @@ public class Compiler {
 		ClassDec classDec = new ClassDec(className, superclass, isInheritable); 
 		
 		currentClass = classDec;
+		
+        symbolTable.putInGlobal(className, classDec);
 	
 		ArrayList<Member> ml = memberList();
 		
@@ -238,7 +240,6 @@ public class Compiler {
 		
 		symbolTable.removeClassIdent();
 
-        symbolTable.putInGlobal(className, classDec);
         
         
 		return classDec;
@@ -464,10 +465,8 @@ public class Compiler {
 			if (right == null)
 				error("Expression expected");
 			
-			System.out.println("AAAAAAAAAAAAAAAAAAAA");
-			System.out.println(right.getType());
 			
-			if (checkType(right.getType(), left.getType()) == false) {
+			if (checkType(left.getType(), right.getType()) == false) {
 				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
 			}
 		}		
@@ -862,7 +861,7 @@ public class Compiler {
 					lexer.nextToken();
 					ClassDec c = (ClassDec) symbolTable.getInGlobal(s);
 					if (c == null) {
-						error(c + " is not a class");
+						error(s + " is not a class");
 					}
 					return new ObjectCreation(c);
 					
@@ -1161,7 +1160,7 @@ public class Compiler {
 	        }
 			ClassDec c = (ClassDec) symbolTable.getInGlobal(lexer.getStringValue());
 			if (c != null) {
-				type = new TypeClass(c.getName());
+				type = c;
 			} else {
 				error("Class '" + lexer.getStringValue() + "' does not exist");
 			}
@@ -1254,19 +1253,32 @@ public class Compiler {
 		if (type1 == null || type2 == null)
 			return false;
 		
-		
+		System.out.println("BBBBBBBBBB");
 		System.out.println(type1);
 		System.out.println(type2);
+		System.out.println("BBBBBBBBBB");
+
 		
+		if (type1 == type2) {
+			return true;
+		} 
 		
 		if (type1.getClass() == type2.getClass()) {
-			return true;
-		} else {
+			if (type1 instanceof ClassDec) {
+				if (isSubclass((ClassDec) type1, (ClassDec) type2)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
 		}
 
 		if (type1 == Type.stringType && type2 == Type.nilType) {
 			return true;
 		}
+		
+		
+		
 		
 //		ClassDec c1 = (ClassDec) symbolTable.getInGlobal(type1);
 //		ClassDec c2 = (ClassDec) symbolTable.getInGlobal(type1);
@@ -1342,19 +1354,19 @@ public class Compiler {
 			
 	}
 	
-	private ClassDec isSubclass(ClassDec c1, ClassDec c2) {
+	private boolean isSubclass(ClassDec c1, ClassDec c2) {
 		
 		ClassDec c = c2;
 		
 		while (c != null && c != c1) {
-			c = c1.getParent();
+			c = c2.getParent();
 		}
 		
 		if (c != null && c == c1) {
-			return c;
+			return true;
 		}
 		
-		return null;
+		return false;
 	}
 
 	private static boolean startExpr(Token token) {

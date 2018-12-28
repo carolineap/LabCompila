@@ -3,7 +3,7 @@ package ast;
 public class ObjectCreation extends AuxFactor {
 	
 	public ObjectCreation(ClassDec c) {
-		this.type = new TypeClass(c.getName());
+		this.type = c;
 	}
 	
 	@Override

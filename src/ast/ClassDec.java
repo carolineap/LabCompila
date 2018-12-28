@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import lexer.Token;
 
-public class ClassDec {
+public class ClassDec extends Type {
 	
 	public ClassDec(String name, ClassDec parent, boolean isInheritable) {
+		super(name);
 		this.name = name;
 		this.parent = parent;
 		this.isInheritable = isInheritable;

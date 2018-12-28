@@ -1,10 +1,12 @@
 Relatório do Compilador
 
-1 de um total de 1 erros que deveriam ser sinalizados não o foram (100%)
-0 erros foram sinalizados na linha errada (0%)
+0 de um total de 1 erros que deveriam ser sinalizados não o foram (0%)
+1 erros foram sinalizados na linha errada (100%)
+Todos os erros que deveriam ter sido sinalizados o foram
+######################################################
+Erros que foram sinalizados na linha errada:
 
-Erros que deveriam ser sinalizados mas não foram:
+Cianeto-tests/ERR-SEM/ER-SEM01.ci
+    correto:    17, Missing 'return' statement in method 'm' (comp.Compiler.methodDec())
+    sinalizado: 61, Type error: value of the right-hand side is not subtype of the variable of the left-hand side.
 
-Cianeto-tests/ERR-SEM/ER-SEM01.ci, 17, Missing 'return' statement in method 'm' (comp.Compiler.methodDec())
-
-Um ou mais arquivos de teste tinham erros, mas estes foram sinalizados nos números de linhas corretos
