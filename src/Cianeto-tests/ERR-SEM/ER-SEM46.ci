@@ -6,7 +6,7 @@
 class Program 
   
     func run {
-       super.run;   //#
+       super.run;   
     }
 
 end

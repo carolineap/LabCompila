@@ -4,10 +4,10 @@
  * ----------------------- */
 
 @cep(14, "'Método 'put' redefinido na classe 'B' com parâmetros diferentes daqueles da superclasse 'A'", 
-  "Method 'put' of the subclass 'B' has a signature different from the same method of superclass 'A',
+  "Method 'put' of the subclass 'B' has a signature different from the same method of superclass 'A'",
   "comp.Compiler.methodDec() or comp.Compiler.classDec()")
 
-
+open
 class A 
     
     func put {

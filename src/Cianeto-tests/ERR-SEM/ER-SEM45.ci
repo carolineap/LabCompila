@@ -1,7 +1,10 @@
-@cep(8, "Não se pode atribuir objetos a métodos ")
+@cep(11, "Não se pode atribuir objetos a métodos", 
+   "Object assign to method",
+   "")
+  
+class A 
 
-class A end
-
+end
 
 class Program 
    

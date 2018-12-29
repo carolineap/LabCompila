@@ -7,6 +7,7 @@ public class ReadExpr extends AuxFactor{
 	}
 
 	public Type getType() {
+		//System.out.println(this.readType);
 		return this.readType;
 	}
 	

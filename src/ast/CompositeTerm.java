@@ -16,9 +16,15 @@ public class CompositeTerm extends Term {
 		Type rightType = right.getType();
 		Type leftType = left.getType();
 		
-		if (leftType == Type.intType && rightType == leftType) {
+		
+		if (this.op == Token.AND && leftType == Type.booleanType && rightType == leftType) {
+			return leftType;
+		} 
+		
+		if (this.op != Token.AND && leftType == Type.intType && rightType == leftType) {
 			return leftType;
 		}
+	
 		
 		return Type.undefType;
 	}

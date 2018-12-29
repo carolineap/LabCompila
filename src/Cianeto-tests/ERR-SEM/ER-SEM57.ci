@@ -14,7 +14,7 @@ end
 class B
 end
 
-class Program {
+class Program 
     func run {
         var A a;
         var B b;
@@ -26,4 +26,3 @@ class Program {
          	Out.println: 0;   
         }
 	}
-}

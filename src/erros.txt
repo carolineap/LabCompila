@@ -31,7 +31,14 @@ Todos os arquivos estão dando certo :)
 
 ERR-SEM
 
-Feito: 01/03/04/05/08/09/11/12/13/14/15/17/18/19/20/21/22/23/24/25/27/28/35
+Feito: 01/02/03/04/05/07/08/09/11/12/13/14/15/16/17/18/19/20/21/22/23/24/25/27*/28/31/32/33/35/37/38/39/40/41/42/43/44/45*/46/47/48/49/55/56/59/60/61/68/70/77/78/79/80*/81/86/88/89/90/100/EXTRA01/EXTRA02
+
+
+FALTA 06/26/29/30/34/36/50/51/52/53/54/58/91
+
+57 está dando um erro (?)
+
+* = está dando erro na linha certo, porém devia ser outra mensagem
 
 ------------------------------------------------------------------------------------------------------------------
 
@@ -41,7 +48,7 @@ Análise semântica:
 - coloquei as classes no table Global e dá erro se já foi declarada
 - erro se declara alguma variável com tipo != de BasicType e diferente de alguma classe já declarada
 - erro se declara variável já declarada
-- erro se função não é void e não possuí return
+- erro se função não é void e não possui return
 - erro se a variável foi passada como parâmetro e foi declarada novamente
 - erro se a variável foi utilizada no self.bla e o bla não existe na classe
 - erro se não tiver classe chamada Program com método público e sem parâmetro
@@ -53,8 +60,17 @@ Análise semântica:
 - erro se expressão do repeat não é boolean
 - erro se variável (apenas variável, não objeto) não foi declarada
 - erro se chama método da superclasse inexistente, ou com parâmetros errados
+------------------------------>> feito semântica do primaryexpr, exceto self.id.id e self.id.idcolon.expressionList <<---------------------------
 
+-------------------------------------------------------------------------------------------------------------------
 
+Falta:
 
-
-
+verificar se o break está em um comando de repetição
+verificar se os assigns com método estão certo, i.e., apenas atribuição de método com retorno
+semântica de override
+semântica método final
+variáveis e campos podem ter o mesmo nome: campos são diferenciados pelo self
+melhorar mensagens de erro genéricas
+parar de dar erro quando atribui classe ou string = nil
+não deixar usar variável de instância sem self, talvez só precise busca inLocal ao invés de inClass

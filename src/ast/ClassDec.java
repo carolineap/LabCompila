@@ -11,6 +11,7 @@ public class ClassDec extends Type {
 		this.name = name;
 		this.parent = parent;
 		this.isInheritable = isInheritable;
+		this.memberList = new ArrayList<>();
 	}
 	
 	public String getName() {
@@ -44,15 +45,15 @@ public class ClassDec extends Type {
 		
 	}
 	
-	public ArrayList<FieldDec> getFields() {
+	public ArrayList<Variable> getFields() {
 		
 		
-		ArrayList<FieldDec> fields = new ArrayList<>();
-			
+		ArrayList<Variable> fields = new ArrayList<>();
+					
 		for (Member f: memberList) {
 		
-			if (f instanceof FieldDec) {
-				FieldDec field = (FieldDec) f;
+			if (f instanceof Variable) {
+				Variable field = (Variable) f;
 				if (field.getQualifier() == Token.PUBLIC)	
 					fields.add(field);
 			}

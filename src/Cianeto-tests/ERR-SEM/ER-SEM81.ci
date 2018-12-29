@@ -3,11 +3,11 @@ Gustavo Eda
 edapd12@gmail.com
 */
 
-@cep(6, "método run deve ser publico", 
+@cep(9, "método run deve ser publico", 
     "Method 'run' of class 'Program' cannot be private",
     "comp.Compiler.methodDec()" )
 
-class Program {
+class Program 
     
     private func run {
     }

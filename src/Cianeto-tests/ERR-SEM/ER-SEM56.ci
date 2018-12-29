@@ -1,12 +1,12 @@
-@cep(10, "'++' can only be used with Int or String")
+@cep(9, "'++' can only be used with Int or String", "'++' can only be used with Int or String", "")
 
 class A
 end
 
-class Program {
+class Program 
     func run {
         var A a;
         a = A.new;
         Out.println: "a = " ++ a;
     }
-}
+end

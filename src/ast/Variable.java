@@ -1,11 +1,12 @@
 package ast;
 import lexer.Token;
 
-public class Variable {
+public class Variable extends Member {
 
 	public Variable(String name, Type type) {
 		this.name = name;
 		this.type = type;
+		this.qualifier = Token.PUBLIC;
 	}
 	
 	public Variable(String name, Type type, Token q) {

@@ -2,9 +2,9 @@
       "Method 'm' was not found in superclass 'B' or its superclasses",
       "comp.Compiler.factor()")
 
+open
 class A 
-   
-   private Int n;
+   private var Int n;
    
    public func set: Int n{
       self.n = n;
@@ -22,7 +22,7 @@ class B extends A
    }   
    override
    func get -> Int {
-      super.m;       //#
+      super.m;       
       return 0;
    }   
 

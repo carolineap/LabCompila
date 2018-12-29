@@ -5,7 +5,7 @@ class A
 end
 
 
-class B extends Int   //#
+class B extends Int   
 
 end
 

@@ -3,7 +3,7 @@ Giovana Vieira de Morais
 giovana.vmorais@gmail.com
 */
 
-@cep(25,
+@cep(19,
 "Chamada a método privado",
 "Method 'p' was not found in the public interface of 'A' or ts superclasses",
 "comp.Compiler.factor()")
@@ -17,11 +17,10 @@ class A
 	}
 end
 
-class Program {
+class Program 
 	func run {
 	    var A a;
 
 		a = A.new;
 		a.p;
 	}
-}
