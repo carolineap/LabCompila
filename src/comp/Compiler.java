@@ -249,6 +249,7 @@ public class Compiler {
 			Token q = qualifier();
 			
 			if ( lexer.token == Token.VAR) {
+				
 				fieldList = fieldDec(q);
 				ml.addAll(fieldList);
 			}
@@ -680,6 +681,9 @@ public class Compiler {
 		return left;
 	}
 	
+	/**
+	 * @return
+	 */
 	private SumSubExpr sumSubExpr( ) {
 		
 		Term left = term();
@@ -1131,7 +1135,10 @@ public class Compiler {
 								
 				if (lexer.token != Token.ID) 
 					error("Missing identifier");
-								
+				
+				if(q != Token.PRIVATE && q != null) {
+					error("Attempt to declare public instance variable '" + lexer.getStringValue() + "'");
+				}
 				Variable v = new Variable(lexer.getStringValue(), type, q);
 				
 				if (symbolTable.getInClass(v.getName()) != null) {
