@@ -535,6 +535,9 @@ public class Compiler {
 	}
 
 	private BreakStat breakStat() {
+		if(ehLoop == false) {
+			error("'break' statement found outside a 'while' statement");
+		}
 		lexer.nextToken();
 		return new BreakStat();
 	}
@@ -563,7 +566,7 @@ public class Compiler {
 	}
 
 	private WhileStat whileStat() {
-		
+			
 		next();
 		Expr e = expr();
 		
@@ -577,8 +580,9 @@ public class Compiler {
 		
 		check(Token.LEFTCURBRACKET, "'{' expected after the 'while' expression");
 		next();
+		ehLoop = true;
 		ArrayList<Statement> statList = statementList();
-		
+		ehLoop = false;
 		check(Token.RIGHTCURBRACKET, "'}' was expected after the 'while' statement");
 		
 		next();
@@ -1401,5 +1405,6 @@ public class Compiler {
 	private SymbolTable		symbolTable;
 	private Lexer			lexer;
 	private ErrorSignaller	signalError;
+	private boolean  ehLoop;
 
 }
