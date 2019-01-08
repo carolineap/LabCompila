@@ -13,3 +13,7 @@ Carol: 	método classDec()
 		criei método basicValue() (
 		criei método exprList()
 		VERIFICAR ASSIGN ERRO SIN04
+
+		if(q != Token.PRIVATE) {
+					error("Attempt to declare public instance variable '" + lexer.getStringValue() + "'");
+				}

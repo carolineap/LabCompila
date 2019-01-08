@@ -1,17 +1,12 @@
-Relatório do Compilador
+Relat�rio do Compilador
 
-0 de um total de 1 erros que deveriam ser sinalizados não o foram (0%)
-0 erros foram sinalizados na linha errada (0%)
+0 de um total de 1 erros que deveriam ser sinalizados n�o o foram (0%)
+1 erros foram sinalizados na linha errada (100%)
 Todos os erros que deveriam ter sido sinalizados o foram
-Um ou mais arquivos de teste tinham erros, mas estes foram sinalizados nos números de linhas corretos
 ######################################################
-Em todos os testes abaixo, o compilador sinalizou o erro na linha correta (quando o teste tinha erros) ou não sinalizou o erro (quando o teste NÃO tinha erros). Mas é necessário conferir se as mensagens emitidas pelo compilador são compatíveis com as mensagens de erro sugeridas pelas chamadas aos metaobjetos dos testes. 
+Erros que foram sinalizados na linha errada:
 
-A lista abaixo contém o nome do arquivo de teste, a mensagem que ele sinalizou e a mensagem sugerida pelo arquivo de teste
+Cianeto-tests/ERR-SEM/ER-SEM29.ci
+    correto:    20, Method 'put' of the subclass 'B' has a signature different from the same method of superclass 'A' (comp.Compiler.methodDec() or comp.Compiler.classDec())
+    sinalizado: 34, error on letf-hand side of assignment 
 
-Cianeto-tests/ERR-SEM/ER-SEM-EXTRA02.ci
-The compiler message was: "Method 'se:' was not found in class 'B' or its superclasses"
-The 'ce' message is:      "Method 'se' not declared"
-
-
-Para o caso de teste que você utilizou, o compilador está correto

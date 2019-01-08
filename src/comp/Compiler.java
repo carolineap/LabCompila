@@ -450,20 +450,21 @@ public class Compiler {
 		if (left == null)
 			error("Statement expected");
 		
+		//System.out.println(left.getType());
 		Expr right = null;
 		
 		if (lexer.token == Token.ASSIGN) {
 			
 			next();
 			right = expr();
-			
 			if (right == null)
 				error("Expression expected");
-			
-			
 			if (checkType(left.getType(), right.getType()) == false) {
 				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
+			}else if(left.getType() != Type.undefType) {
+				error("error on letf-hand side of assignment ");
 			}
+			
 		}		
 		
 		return new AssignExpr(left, right);
@@ -951,7 +952,6 @@ public class Compiler {
 				type = v.getType();
 			}
 		} 
-	
 		return new PrimaryExpr(type);
 	}
 	
@@ -1130,7 +1130,7 @@ public class Compiler {
 		Type type = type();
 		ArrayList<Variable> fieldList = new ArrayList<>();
 		
-		
+		 
 		if ( lexer.token != Token.ID ) {
 			this.error("A variable name was expected");
 		}
@@ -1140,7 +1140,8 @@ public class Compiler {
 				if (lexer.token != Token.ID) 
 					error("Missing identifier");
 				
-				if(q != Token.PRIVATE && q != null) {
+				//System.out.println(q);
+				if(q != Token.PRIVATE) {
 					error("Attempt to declare public instance variable '" + lexer.getStringValue() + "'");
 				}
 				Variable v = new Variable(lexer.getStringValue(), type, q);
@@ -1231,9 +1232,11 @@ public class Compiler {
 					next();
 				}
 			}
-		} else {
-			q = Token.PUBLIC;
+		} else if(q == Token.VAR){
+			q = Token.PRIVATE;
 			
+		}else {
+			q = Token.PUBLIC;
 		}
 		return q;
 	}
