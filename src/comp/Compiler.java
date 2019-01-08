@@ -80,7 +80,7 @@ public class Compiler {
 				if (c.getName().equals("Program")) {
 					ArrayList<MethodDec> methods = c.getMethods();
 					for (MethodDec m: methods) {
-						if (m.getMethodName().equals("run") && m.getQualifier() == Token.PUBLIC) {
+						if (m.getMethodName().equals("run") && m.getQualifier().getToken1() == Token.PUBLIC) {
 							if (m.getParamList().isEmpty()) {
 								flag = true;
 							} else {
@@ -226,6 +226,7 @@ public class Compiler {
 	
 		ArrayList<Member> ml = memberList();
 		
+		
 		currentClass.setMemberList(ml);
 		
 		if (ml == null || lexer.token != Token.END)
@@ -246,7 +247,7 @@ public class Compiler {
 		
 		while ( true ) {
 			
-			Token q = qualifier();
+			Qualifier q = qualifier();
 			
 			if ( lexer.token == Token.VAR) {
 				
@@ -278,7 +279,7 @@ public class Compiler {
 		}
 	}
 
-	private MethodDec methodDec(Token q) {
+	private MethodDec methodDec(Qualifier q) {
 		
 		String id = null;
 		ArrayList<Variable> paramList = new ArrayList<>();
@@ -298,7 +299,7 @@ public class Compiler {
 			paramList = parameterList();
 			for (Variable p : paramList) {
                 if (symbolTable.getInLocal(p.getName()) != null) {
-                    error("Variável '" + p.getName() + "' já foi declarada");
+                    error("variavel" + p.getName() + "' ja foi declarada");
                 }
                 symbolTable.putInLocal(p.getName(), p);
 	        }
@@ -319,7 +320,7 @@ public class Compiler {
 		if ( lexer.token != Token.LEFTCURBRACKET ) {
 			error("'{' expected");
 		}
-		
+		System.out.println(q.getToken2());
 		next();
 		
 		MethodDec m = new MethodDec(id, paramList, returnType, q);
@@ -344,7 +345,7 @@ public class Compiler {
                 }
             }
             if(flag == false){
-                error("A função " + id + " é do tipo " + returnType.getName() + " e não possui retorno");
+                error("The function " + id + " is the type:  " + returnType.getName() + " and dont have a return");
             }
         }
         
@@ -1124,7 +1125,7 @@ public class Compiler {
 	}
 
 	
-	private ArrayList<Variable> fieldDec(Token q) {
+	private ArrayList<Variable> fieldDec(Qualifier q) {
 		
 		lexer.nextToken();
 		Type type = type();
@@ -1141,7 +1142,7 @@ public class Compiler {
 					error("Missing identifier");
 				
 				//System.out.println(q);
-				if(q != Token.PRIVATE) {
+				if(q.getToken1() != Token.PRIVATE) {
 					error("Attempt to declare public instance variable '" + lexer.getStringValue() + "'");
 				}
 				Variable v = new Variable(lexer.getStringValue(), type, q);
@@ -1205,10 +1206,11 @@ public class Compiler {
 	}
 
 
-	private Token qualifier() {
+	private Qualifier qualifier() {
 		
 		Token q = lexer.token;
-		
+		Token q2 = null;
+		Token q3 = null;
 		if ( lexer.token == Token.PRIVATE ) {
 			next();
 		}
@@ -1218,17 +1220,21 @@ public class Compiler {
 		else if ( lexer.token == Token.OVERRIDE ) {
 			next();
 			if ( lexer.token == Token.PUBLIC ) {
+				q2 = lexer.token;
 				next();
 			}
 		}
 		else if ( lexer.token == Token.FINAL ) {
 			next();
 			if ( lexer.token == Token.PUBLIC ) {
+				q2 = lexer.token;
 				next();
 			}
 			else if ( lexer.token == Token.OVERRIDE ) {
+				q2 = lexer.token;
 				next();
 				if ( lexer.token == Token.PUBLIC ) {
+					q3 = lexer.token;
 					next();
 				}
 			}
@@ -1238,7 +1244,7 @@ public class Compiler {
 		}else {
 			q = Token.PUBLIC;
 		}
-		return q;
+		return new Qualifier (q, q2, q3);
 	}
 
 	private AssertStat assertStat() {

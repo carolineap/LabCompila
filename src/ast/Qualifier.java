@@ -1,0 +1,25 @@
+package ast;
+import lexer.Token;
+
+public class Qualifier {
+	private Token token1;
+	private Token token2;
+	private Token token3;
+	
+	public Qualifier(Token t1, Token t2, Token t3) {
+		this.token1 = t1;
+		this.token2 = t2;
+		this.token2 = t3;
+	}
+	
+	public Token getToken1() {
+		return this.token1;
+	}
+	public Token getToken2() {
+		return this.token2;
+	}
+	public Token getToken3() {
+		return this.token3;
+	}
+	
+}

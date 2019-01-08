@@ -4,7 +4,7 @@ import lexer.Token;
 
 public class MethodDec extends Member {
 	
-	public MethodDec(String id, ArrayList<Variable> paramList, Type returnType, Token qualifier) {
+	public MethodDec(String id, ArrayList<Variable> paramList, Type returnType, Qualifier qualifier) {
 		this.id = id;
 		this.paramList = paramList;
 		this.returnType = returnType;
@@ -23,7 +23,7 @@ public class MethodDec extends Member {
 		return this.paramList;
 	}
 	
-	public Token getQualifier() {
+	public Qualifier getQualifier() {
 		return this.qualifier;
 	}
 	
@@ -35,6 +35,6 @@ public class MethodDec extends Member {
 	private ArrayList<Variable> paramList;
 	private Type returnType;
 	private ArrayList<Statement> statList;
-	private Token qualifier;
+	private Qualifier qualifier;
 	
 }

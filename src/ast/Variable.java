@@ -6,10 +6,10 @@ public class Variable extends Member {
 	public Variable(String name, Type type) {
 		this.name = name;
 		this.type = type;
-		this.qualifier = Token.PUBLIC;
+		this.qualifier = new Qualifier(Token.PUBLIC, null, null);
 	}
 	
-	public Variable(String name, Type type, Token q) {
+	public Variable(String name, Type type, Qualifier q) {
 		this.name = name;
 		this.type = type;
 		this.qualifier = q;
@@ -23,11 +23,11 @@ public class Variable extends Member {
 		return this.type;
 	}
 	
-	public Token getQualifier() {
+	public Qualifier getQualifier() {
 		return this.qualifier;
 	}
 
-	private Token qualifier;
+	private Qualifier qualifier;
 	private String name;
 	private Type type;
 	

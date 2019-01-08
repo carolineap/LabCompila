@@ -35,7 +35,7 @@ public class ClassDec extends Type {
 		
 			if (m instanceof MethodDec) {
 				MethodDec method = (MethodDec) m;
-				if (method.getQualifier() == Token.PUBLIC)	
+				if (method.getQualifier().getToken1() == Token.PUBLIC)	
 					methods.add(method);
 			}
 			
@@ -54,7 +54,7 @@ public class ClassDec extends Type {
 		
 			if (f instanceof Variable) {
 				Variable field = (Variable) f;
-				if (field.getQualifier() == Token.PUBLIC)	
+				if (field.getQualifier().getToken1() == Token.PUBLIC)	
 					fields.add(field);
 			}
 			

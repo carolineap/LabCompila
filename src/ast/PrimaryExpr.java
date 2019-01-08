@@ -11,6 +11,6 @@ public class PrimaryExpr extends AuxFactor {
 	}
 	
 	private Type type;
-	private String tipo;
+
 
 }
