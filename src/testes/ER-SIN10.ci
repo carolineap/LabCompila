@@ -4,6 +4,7 @@
 class Program 
   
     func run {
+    	var Int a;
         a = readInt;
                 
     }

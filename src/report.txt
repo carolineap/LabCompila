@@ -1,12 +1,8 @@
-RelatÛrio do Compilador
+Relat√≥rio do Compilador
 
-0 de um total de 1 erros que deveriam ser sinalizados n„o o foram (0%)
-1 erros foram sinalizados na linha errada (100%)
-Todos os erros que deveriam ter sido sinalizados o foram
+1 erros foram sinalizados em 1 arquivos sem erro (100%)
 ######################################################
-Erros que foram sinalizados na linha errada:
+Erros que foram sinalizados mas n√£o deveriam ter sido:
 
-tests/ER-SEM26.ci
-    correto:    14, 'break' statement found outside a 'while' statement (comp.Compiler.statement()))
-    sinalizado: 11, Class member or 'end' expected
+testes/OK-SIN14.ci, 15, Class member or 'end' expected
 
