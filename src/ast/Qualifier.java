@@ -1,5 +1,5 @@
 package ast;
-import lexer.Token;
+import lexer.*;
 
 public class Qualifier {
 	private Token token1;
@@ -20,6 +20,12 @@ public class Qualifier {
 	}
 	public Token getToken3() {
 		return this.token3;
+	}
+	public boolean override() {
+		if(this.token1 == Token.OVERRIDE || this.token2 == Token.OVERRIDE ) {
+			return true;
+		}
+		return false;
 	}
 	
 }

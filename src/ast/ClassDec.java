@@ -71,7 +71,9 @@ public class ClassDec extends Type {
 	public ArrayList<Member> getMembers() {
 		return this.memberList;
 	}
-	
+	public ClassDec getsClass() {
+		return this.parent;
+	}
 	private String name;
 	private ClassDec parent;
 	private ArrayList<Member> memberList;

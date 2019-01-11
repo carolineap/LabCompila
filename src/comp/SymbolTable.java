@@ -8,6 +8,7 @@ public class SymbolTable {
         globalTable = new Hashtable();
         localTable  = new Hashtable();
         classTable = new Hashtable();
+        superClassTable =  new Hashtable();
     }
     
     public Object putInGlobal( String key, Object value ) {
@@ -32,7 +33,11 @@ public class SymbolTable {
 
     	 else return classTable.get(key);
      }
-    
+     
+	 public Object putInSuperClassTable( String key, Object value ) {
+	     return superClassTable.put(key, value);
+	  }
+	 
     public Object getInLocal( Object key ) {
        return localTable.get(key);
     }
@@ -40,7 +45,9 @@ public class SymbolTable {
     public Object getInGlobal( Object key ) {
        return globalTable.get(key);
     }
-    
+    public Object getInSuperClassTable( Object key ) {
+        return superClassTable.get(key);
+     }
     public Object get( String key ) {
         // returns the object corresponding to the key. 
         Object result;
@@ -65,6 +72,6 @@ public class SymbolTable {
  }
       
         
-    private Hashtable globalTable, localTable, classTable;
+    private Hashtable<String, Object> globalTable, localTable, classTable, superClassTable;
 
 }

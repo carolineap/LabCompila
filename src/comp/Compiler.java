@@ -214,6 +214,17 @@ public class Compiler {
 				error("The superclass '" + superclassName + "' does not exist");
 			}
 			
+			ClassDec aux = superclass;
+			do {
+				ArrayList<Member> memberlist = aux.getMembers();
+				for(int i = 0; i < memberlist.size(); i++) {
+					Member m = memberlist.get(i);
+					if(m instanceof MethodDec) {
+						symbolTable.putInSuperClassTable(((MethodDec)m).getMethodName(), m);
+					}
+				}
+				aux = aux.getsClass();
+			}while(aux != null);
 			
 			lexer.nextToken();
 		}
@@ -226,7 +237,6 @@ public class Compiler {
 	
 		ArrayList<Member> ml = memberList();
 		
-		
 		currentClass.setMemberList(ml);
 		
 		if (ml == null || lexer.token != Token.END)
@@ -235,8 +245,6 @@ public class Compiler {
 		
 		symbolTable.removeClassIdent();
 
-        
-        
 		return classDec;
 	}
 
@@ -317,10 +325,15 @@ public class Compiler {
 			returnType = type();
 		}
 		
+		MethodDec method = (MethodDec) symbolTable.getInSuperClassTable(id);
+		if(q.override()) {
+			
+		}
+		
 		if ( lexer.token != Token.LEFTCURBRACKET ) {
 			error("'{' expected");
 		}
-		System.out.println(q.getToken2());
+
 		next();
 		
 		MethodDec m = new MethodDec(id, paramList, returnType, q);
@@ -462,9 +475,9 @@ public class Compiler {
 				error("Expression expected");
 			if (checkType(left.getType(), right.getType()) == false) {
 				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
-			}else if(left.getType() != Type.undefType) {
-				error("error on letf-hand side of assignment ");
-			}
+			}//else if(left.getType() != Type.undefType) {
+				//error("error on letf-hand side of assignment ");
+			//}
 			
 		}		
 		
@@ -514,12 +527,10 @@ public class Compiler {
 	}
 
 	private RepeatStat repeatStat() {
-		
 		next();
-
-		
+		ehLoop = true;
 		ArrayList<Statement> statList = statementList();
-	
+		ehLoop = false;
 		check(Token.UNTIL, "'until' was expected");
 		next();
 		
@@ -1220,23 +1231,23 @@ public class Compiler {
 		else if ( lexer.token == Token.OVERRIDE ) {
 			next();
 			if ( lexer.token == Token.PUBLIC ) {
-				q2 = lexer.token;
+				q2 = Token.PUBLIC;
 				next();
 			}
 		}
 		else if ( lexer.token == Token.FINAL ) {
 			next();
-			if ( lexer.token == Token.PUBLIC ) {
-				q2 = lexer.token;
+			if ( lexer.token == Token.PUBLIC ) {	
 				next();
+				q2 = Token.PUBLIC;
 			}
 			else if ( lexer.token == Token.OVERRIDE ) {
-				q2 = lexer.token;
+				q2 = Token.OVERRIDE;
 				next();
 				if ( lexer.token == Token.PUBLIC ) {
-					q3 = lexer.token;
 					next();
 				}
+				q3 = Token.PUBLIC;
 			}
 		} else if(q == Token.VAR){
 			q = Token.PRIVATE;
