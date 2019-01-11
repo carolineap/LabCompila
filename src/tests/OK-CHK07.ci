@@ -115,7 +115,7 @@ class Program
       s = University.new;
       s.init: "UFSCar", "Sao Carlos", 7000;
       s.print;
-	    Out.println "";
+	  Out.println "";
       joao = Person.new;
       joao.init: "Joao", 21;
       joao.setCourse: "EnC";

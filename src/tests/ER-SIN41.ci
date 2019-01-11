@@ -3,12 +3,11 @@
     luccalafonte97@gmail.com
 */
 
-@cep(4, "nome da classe ausente",
+@cep(5, "nome da classe ausente",
    "Identifier expected", "comp.Compiler.classDec()")
 
 
 class
-
     func m {
     }
 

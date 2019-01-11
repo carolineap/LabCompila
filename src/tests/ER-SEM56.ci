@@ -3,10 +3,10 @@
 class A
 end
 
-class Program {
+class Program
     func run {
         var A a;
         a = A.new;
         Out.println: "a = " ++ a;
     }
-}
+end

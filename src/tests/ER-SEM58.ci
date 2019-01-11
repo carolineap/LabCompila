@@ -3,7 +3,7 @@ Giovana Vieira de Morais
 giovana.vmorais@gmail.com
 */
 
-@cep(21, 
+@cep(19, 
 "Testa se o compilador sinaliza erro nas comparações '!='",
 "Incompatible types cannot be compared with '!=' because the result will always be 'false'",
 "comp.Compiler.expr()")
@@ -14,7 +14,7 @@ end
 class B
 end
 
-class Program {
+class Program 
 	func run {
 	    var A a;
 	    var B b;
@@ -26,4 +26,4 @@ class Program {
 	        Out.println: 0;
 	    }
 	}
-}
+end

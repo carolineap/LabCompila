@@ -5,7 +5,7 @@ willianadrianoalves@hotmail.com
 
 @cep(4, "identificado 'getUser' e ':' devem estar juntos", "")
   
-class Milhar { 
+class Milhar
     var Int numero;
     func getUser : Int n -> Int {
         self.numero = n*1000;
@@ -13,7 +13,7 @@ class Milhar {
     }
 end
 
-class Program {
+class Program 
     func run { 
         var Milhar numero; 
         numero = Milhar.new;

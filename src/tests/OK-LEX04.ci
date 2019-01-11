@@ -12,6 +12,6 @@ michael-santos@outlook.com.br
 
 class Program
     func run {
-        Out.print: 0, 1, 32766, 32767, -32767, -0;
+        Out.print: 0, 1, 2147483646, 2147483647, -2147483647, -0;
     }
 end

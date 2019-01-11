@@ -16,15 +16,16 @@
 
 class A
 
-    func fact:Int n -> Int{
+    func fact: Int n -> Int{
         var A a;
         var Int ans;
         
         if n == 0 {
             return 1;
-        } else {
+        } 
+        else {
             a = A.new;
-            ans = a.fact:n-1;
+            ans = a.fact: n-1;
             ans = ans * n;
             return ans;
         }
@@ -37,12 +38,12 @@ class Program
    func run {
       var A a;
       
-      Out.println:"";
-      Out.println:"Ok-fact";
-      Out.println:"The output should be :";
-      Out.println:"120";
+      Out.println: "";
+      Out.println: "Ok-fact";
+      Out.println: "The output should be :";
+      Out.println: "120";
       a = A.new;
-      Out.println:a.fact:5;
+      Out.println: (a.fact: 5);
    }   
 
 end

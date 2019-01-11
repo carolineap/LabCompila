@@ -37,7 +37,7 @@ class Program
       Out.println: "The output should be :";
       Out.println: "6 1 2 3 4 5 6" ;
       a = A.new;
-      a.m();
+      a.m;
    }   
 
 end

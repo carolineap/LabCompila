@@ -7,7 +7,7 @@ edapd12@gmail.com
     "Source code without a class 'Program'",
     "comp.Compiler.program()")
 
-class A {
+class A
     
     func m {
     }

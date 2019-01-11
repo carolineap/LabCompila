@@ -1,7 +1,7 @@
 @cep(24, "Chamada a método inexistente utilizando 'super'",
       "Method 'm' was not found in superclass 'B' or its superclasses",
       "comp.Compiler.factor()")
-
+open
 class A 
    
    private Int n;

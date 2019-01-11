@@ -1,5 +1,5 @@
 @cep(7, "readInt não toma parâmetros", 
-   "Command 'read' expects a variable", "comp.Compiler.readStatement())")
+   "Method 'readInt:' was not found", "comp.Compiler.readStatement())")
   
       
 class Program 

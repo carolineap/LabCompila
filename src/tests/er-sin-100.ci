@@ -7,7 +7,7 @@ vitor.fogaca@outlook.com
 class Teste
     var Int n;
     
-    func get -> Int {}
+    func get -> Int { }
     
     func set: Int n {
         self.n = n;

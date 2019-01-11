@@ -9,11 +9,11 @@ end
 
 class B extends A
     public func zero -> Int {
-        return 1; // oops ...
+        return 1; 
     }
 end
 
-class Program {
+class Program 
     func run {
     }
-}
+end

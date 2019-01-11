@@ -22,14 +22,15 @@ class A
         var Boolean b;
         
         b = false;
-        if (b) {
+        if b {
         }
         else {
         }
-        while ( b )
+        while b {
             ;
+        }
         
-        while ( b ) {
+        while (b) {
         }
         i = ((1 * 4) + 3) - (5 / 2);
         b = false;
@@ -38,7 +39,7 @@ class A
             i = -1;
             i = In.readInt;
             j = In.readInt;
-            while ( i > 0 ){
+            while i > 0 {
                 Out.println: i;
                 i = i - 1;
             }

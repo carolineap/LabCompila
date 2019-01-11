@@ -11,6 +11,6 @@ class Program
     func m: Int x, Int y -> {  
     }
    
-    func run() {
+    func run {
     }
 end

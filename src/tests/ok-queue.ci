@@ -16,21 +16,26 @@ class Node
     var Int number;
     var Node next;
     
+    func setNumber: Int number { self.number = number; }
+    func getNumber -> Int { return number; }
+    func setNext: Node next { self.next = next; }
+    func getNext -> Node { return next; } 
+    
     func print {
         Out.print:number++" ";
-        if next != nil{
+        if next != nil {
             next.print;
         }
     }
 end
 
 class Head
-    var Node end;
+    var Node end2;
     var Node first;
     var Int nElements;
     
-    func init{
-        end = nil;
+    func init {
+        end2 = nil;
         first = nil;
         nElements = 0;
     }
@@ -41,25 +46,26 @@ class Head
         }
     }
     
-    func insert:Int num{
+    func insert: Int num{
         nElements = nElements + 1;
         var Node aux;
         
         aux = Node.new;
             
-        aux.number = num;
-        aux.next = nil;
+        aux.setNumber: num;
+        aux.setNext: nil;
         
         if first == nil && end == nil{
             first = aux;
-        } else {
-            end.next = aux;
+        } 
+        else {
+            end2.setNext: aux;
         }
         
-        end = aux;
+        end2 = aux;
     }
     
-    func print:
+    func print { }
 end
 
 class Program
@@ -72,10 +78,10 @@ class Program
       count = 0;
       max = 10;
       
-      Out.println:"";
-      Out.println:"Ok-queue";
-      Out.println:"The output should be :";
-      Out.println:"The values of queue";
+      Out.println: "";
+      Out.println: "Ok-queue";
+      Out.println: "The output should be :";
+      Out.println: "The values of queue";
       head = Head.new;
       head.init;
       

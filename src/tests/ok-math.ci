@@ -14,27 +14,27 @@
 
 class A
 
-    func sum:Int n1, Int n2 -> Int{
-        return (n1 + n2);
+    func sum: Int n1, Int n2 -> Int {
+        return n1 + n2;
     }
     
-    func sub:Int n1, Int n2 -> Int{
+    func sub: Int n1, Int n2 -> Int {
         return (n1 - n2);
     }
     
-    func mult:Int n1, Int n2 -> Int{
+    func mult: Int n1, Int n2 -> Int {
         return (n1 * n2);
     } 
     
-    func div:Int n1, Int n2 -> Int{
-        if n2 == 0{
+    func div: Int n1, Int n2 -> Int {
+        if n2 == 0 {
             return -1;
         } else {
             return (n1 / n2);
         }
     } 
     
-    func pow2:Int n1 -> Int{
+    func pow2: Int n1 -> Int{
         return (n1 + n1);
     } 
 
@@ -47,19 +47,19 @@ class Program
       var Int n1;
       var Int n2;
       
-      Out.println:"";
+      Out.println: "";
       a = A.new;
-      Out.println:"Ok-math";
+      Out.println: "Ok-math";
       
       n1 = In.readInt;
       n2 = In.readInt;
       
-      Out.println:a.sum:n1,n2;
-      Out.println:a.sub:n1,n2;
-      Out.println:a.mult:n1,n2;
-      Out.println:a.div:n1,n2;
-      Out.println:a.pow2:n1;
-      Out.println:a.pow2:n2;
+      Out.println: a.sum: n1,n2;
+      Out.println: a.sub: n1,n2;
+      Out.println: a.mult: n1,n2;
+      Out.println: a.div: n1,n2;
+      Out.println: a.pow2: n1;
+      Out.println: a.pow2: n2;
    }   
 
 end

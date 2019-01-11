@@ -19,11 +19,11 @@ open
 class A
 
     func m1 {
-        Out.print:" 2 ";
+        Out.print: " 2 ";
     }
 
     func m2:Int n {
-        Out.print:n;
+        Out.print: n;
         self.m1;
     }
 
@@ -33,7 +33,7 @@ class B extends A
 
     override
     func m1 {
-        Out.println:" 4";
+        Out.println: " 4";
     }
 
 end
@@ -44,15 +44,15 @@ class Program
         var A a;
         var B b;
 
-        Out.println:"";
-        Out.println:"Ok-ger11";
-        Out.println:"The output should be: ";
-        Out.println:"4 1 2 3 4";
-        Out.print:"4 ";
+        Out.println: "";
+        Out.println: "Ok-ger11";
+        Out.println: "The output should be: ";
+        Out.println: "4 1 2 3 4";
+        Out.print: "4 ";
         a = A.new;
-        a.m2:1;
+        a.m2: 1;
         a = B.new;
-        a.m2:3;
+        a.m2: 3;
     }
 
 end

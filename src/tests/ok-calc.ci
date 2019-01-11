@@ -22,11 +22,11 @@
 open
 class A
 
-    func calculaNota:Int ntrab, Int nprov -> Int{
+    func calculaNota: Int ntrab, Int nprov -> Int{
         var Int ans;
         ans = 11;
-        if ntrab >= 6{
-            if nprov >= 6{
+        if ntrab >= 6 {
+            if nprov >= 6 {
                 ans = ntrab + nprov;
                 ans = ans/2;
                 return ans;
@@ -35,7 +35,7 @@ class A
         return ans;
     }
     
-    func calculaNotaB:Int ntrab, Int nprov -> Int{
+    func calculaNotaB: Int ntrab, Int nprov -> Int{
         var Int ans;
         ans = (2 * ntrab + prov)/3;
         return ans;
@@ -44,10 +44,11 @@ end
 
 class B extends A    
     override
-    func calculaNotaB:Int ntrab, Int nprov -> Int{
-        if ntrab < nprov{
+    func calculaNotaB: Int ntrab, Int nprov -> Int {
+        if ntrab < nprov {
             return ntrab;
-        } else {
+        } 
+        else {
             return nprov;
         }
     }
@@ -72,16 +73,18 @@ class Program
       ntrab = In.readInt;
       
       //Calcula a nota
-      ans = a.calculaNota:ntrab,nprov;
+      ans = a.calculaNota: ntrab, nprov;
       
       if ans != 11 {
-          Out.println:ans;
-      } else {
+          Out.println: ans;
+      } 
+      else {
           if ans == 11 && nprov < 6 {
               a = B.new;
-              Out.println:a.calculaNotaB:ntrab,nprov;
-          } else {
-              Out.println:a.calculaNotaB:ntrab,nprov;
+              Out.println: (a.calculaNotaB: ntrab, nprov);
+          } 
+          else {
+              Out.println: (a.calculaNotaB: ntrab, nprov);
           }
       }
    }   

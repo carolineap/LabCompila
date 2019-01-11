@@ -22,7 +22,7 @@ class Program
         var Int a;
         t = Teste.new;
         a = In.readInt;
-        t.set: erro;
+        t.set: error;
         Out.println: t.get;
     }
 end

@@ -3,7 +3,7 @@ Giovana Vieira de Morais
 giovana.vmorais@gmail.com
 */
 
-@cep(19, "'put' redefinido em 'B' com parâmetros diferentes daqueles da superclasse A",
+@cep(14, "'put' redefinido em 'B' com parâmetros diferentes daqueles da superclasse A",
     "Method 'put' is being redefined in subclass 'B' with a signature different from the method of superclass 'A'",
     "comp.Compiler.methodDec()")
 
@@ -21,11 +21,11 @@ class B extends A
     }
 end
 
-class Program {
+class Program 
     func run {
         var A a;
         
         a = A.new;
         a.put: 0, 1, true;
     }
-}
+end

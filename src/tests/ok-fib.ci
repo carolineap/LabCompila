@@ -25,9 +25,9 @@ class A
             return n;
         } else {
             a = A.new;
-            left = a.fib:n-1;
-            right = a.fib:n-2;
-            return (left + right);
+            left = a.fib: n-1;
+            right = a.fib: n-2;
+            return left + right;
         }
     }  
 
@@ -38,12 +38,12 @@ class Program
    func run {
       var A a;
       
-      Out.println:"";
-      Out.println:"Ok-fib";
-      Out.println:"The output should be :";
-      Out.println:"34";
+      Out.println: "";
+      Out.println: "Ok-fib";
+      Out.println: "The output should be :";
+      Out.println: "34";
       a = A.new;
-      Out.println:a.fib:10;
+      Out.println: (a.fib: 10);
    }   
 
 end

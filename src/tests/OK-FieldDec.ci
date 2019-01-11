@@ -16,10 +16,7 @@ class Program {
     var Int i
     var Int j;
 
-    j = 2;
-    i = 1 + j;
-
     func run {
-        Out.println : i ;
+        Out.println : i;
     }
 }

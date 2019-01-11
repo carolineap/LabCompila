@@ -1,5 +1,5 @@
 @cep(8, "Valor booleano em expressao inteira", 
-  "operator '+' of 'int' expects an 'int' value",
+  "operator '+' of 'Int' expects an 'Int' value",
   "comp.Compiler.simpleExpr()")
   
 

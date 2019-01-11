@@ -58,7 +58,7 @@ end
 
 class C extends A
     override
-    public get_A -> Int {
+    public func get_A -> Int {
         return 0;
     }   
 

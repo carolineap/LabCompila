@@ -10,9 +10,9 @@
     @comment testa se aceita - unario em uma sequencia de somas
 */
 
-class Program {
+class Program 
 
     func run {
         Out.println : ((1 + 2) + (-3));
     }
-}
+end

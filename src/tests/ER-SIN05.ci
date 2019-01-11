@@ -8,7 +8,7 @@ class Program
 
     func read: Int a, Int b, Int c { } 
 
-    func run() {
+    func run {
       
         var Int i, j;
         read: i, j, ;

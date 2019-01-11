@@ -5,16 +5,16 @@ willianadrianoalves@hotmail.com
 
 @cep(6, "metodo 'run' nao deve tomar parametros", "")
 
-class Program { 
+class Program
 
-	var Int Numero = 0;
+	var Int numero = 0;
 
-    func run: Int Numero { 
+    func run: Int numero { 
 
         var Int numero; 
-        Numero = In.readInt; 
+        numero = In.readInt; 
         numero = 0;
-        Out.println: self.Numero; 
+        Out.println: self.numero; 
 
         return numero;
 

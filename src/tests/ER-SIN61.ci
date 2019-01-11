@@ -4,7 +4,7 @@ luciane.silva@msn.com
 */
 
 @cep(11, "')' deve vir depois da expressão do 'until'}", 
-  "')' expected after 'until' expression", 
+  "')' expected", 
   "comp.Compiler.repeatStat()")
 
 class Program

@@ -21,7 +21,7 @@ class Program
         var A a;
         
         a = A.new;
-        Out.println: a.m: 3, 4, true;
+        Out.println: (a.m: 3, 4, true);
     }
 end
 

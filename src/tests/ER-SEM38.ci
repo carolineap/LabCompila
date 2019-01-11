@@ -21,3 +21,8 @@ class B extends A
     }
 
 end
+
+class Program 
+    func run { 
+    }
+end

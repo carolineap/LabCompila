@@ -7,7 +7,7 @@ edapd12@gmail.com
     "Method 'run' of class 'Program' cannot be private",
     "comp.Compiler.methodDec()" )
 
-class Program {
+class Program 
     
     private func run {
     }

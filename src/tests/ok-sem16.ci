@@ -16,8 +16,7 @@ class Program {
     func run { 
         var Milhar numero; 
         numero = Milhar.new;
-        numero.getUser;
-        Out.println: numero;        
+        Out.println: numero.getUser;        
     } 
 end
 

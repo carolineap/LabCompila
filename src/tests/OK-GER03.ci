@@ -18,25 +18,25 @@ class A
    public void m() {
     
       Out.print:  6 ;
-      if (true && true) {
+      if true && true {
          Out.print:  1 ;
       }
       if (false && true) {
          Out.print:  1000 ;
       }
-      if (true && false) {
+      if true && false {
          Out.print:  1000 ;
       }
       if (false && false) {
          Out.print:  1000 ;
       }
-      if (true || true) {
+      if true || true {
          Out.print:  2 ;
       }
       if (true || false) {
          Out.print:  3 ;
       }
-      if (false || true) {
+      if false || true {
          Out.print:  4 ;
       }
       if (false || false) {
@@ -45,7 +45,7 @@ class A
       if (!false) {
          Out.print:  5 ;
       }
-      if (!true) {
+      if !true {
          Out.print:  1000 ;
       }
       if (true || (true && false)) {

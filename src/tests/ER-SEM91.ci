@@ -5,7 +5,7 @@ willianadrianoalves@hotmail.com
 
 @cep(5, "necessario o uso do 'self.' antes de 'numero', devido o escopo", "")
   
-class Milhar { 
+class Milhar 
     var Int numero;
     func getUser: Int n -> Int {
         numero = n*100;
@@ -21,7 +21,7 @@ class Milhar {
     }
 end
 
-class Program {
+class Program 
     func run { 
         var Milhar numero; 
         numero = Milhar.new;

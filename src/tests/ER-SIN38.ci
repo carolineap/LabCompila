@@ -8,7 +8,7 @@ lucasrigoyoshimura@gmail.com
 
 class Program 
   
-    func run() {
+    func run {
         
         while ( true ) {
         
