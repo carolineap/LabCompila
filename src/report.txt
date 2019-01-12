@@ -9,9 +9,9 @@ Em todos os testes abaixo, o compilador sinalizou o erro na linha correta (quand
 
 A lista abaixo contém o nome do arquivo de teste, a mensagem que ele sinalizou e a mensagem sugerida pelo arquivo de teste
 
-testes/ER-SEM26.ci
-The compiler message was: "'break' statement found outside a 'while' statement"
-The 'ce' message is:      "'break' statement found outside a 'while' statement"
+testes/ER-SEM91.ci
+The compiler message was: "A self.numero is expected"
+The 'ce' message is:      "self error"
 
 
 Para o caso de teste que você utilizou, o compilador está correto

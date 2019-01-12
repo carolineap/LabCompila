@@ -3,7 +3,7 @@ William A Alves
 willianadrianoalves@hotmail.com
 */
 
-@cep(5, "necessario o uso do 'self.' antes de 'numero', devido o escopo", "")
+@cep(5, "necessario o uso do 'self.' antes de 'numero', devido o escopo", "self error")
   
 class Milhar 
     var Int numero;

@@ -12,6 +12,8 @@ ERRO 40/44: pode ter esse public sim, não pode?
 
 Alguns erros estão certos, porém na linha errada. Por exemplo, erro de ; (mas se o gcc faz isso, quem somos nós)
 nem sem como arrumar o 41 está sinalizando na 12 e era para ser na 10
+
+SE NÃO COLOCAR  VAR OU FUNC NÃO DÁ ERRO
 --------------------------------------------------------------------------------------------------------------------
 OK-SIN
 
@@ -37,17 +39,25 @@ ERR-SEM
 Feito: 01/02/03/04/05/07/08*/09*/11*/12/13/14/15/16/17/18/19/20/21/22/23/24/25/27*/28/31/32/33/35/36/37/38/39/40/41/42/43/44/45*/46/47/48/49/55/56/59/60/61/68/70/77/78/79/80*/81/86/88/89/90/100/EXTRA01/EXTRA02
 
 
-FALTA 06-/26-/29/30-/34?/50/51/52/53/54/58/91
+FALTA 06-/26-/29-/30-/34?/50-/51-/52-/53-/54-/58-/91-
 
 57 está dando um erro (?)
 
 * = está dando erro na linha certo, porém devia ser outra mensagem
 
-26 - break fora de loop FEITO
+ERROS COM '-' eu já resolvi:
 06 - verificar se o lado esquerdo é válido, o lado esquerdo só pode ser id ou self.id (FEITO na gambiarra com flag)
+26 - break fora de loop FEITO
+29 - resolvido daquele jeito, tirando o :
 30 - override feito
 34 ? eu posso chamar uma funcao que tem retorno e não fazer nada com o retorno, né?
 50 - break fora de loop FEITO, com duas flags muita gambi kkkkkk
+51 - falta o override, se colocar dá erro de assinatura (está certo)
+52 - override missing
+53 - override missing
+54 - override missing
+58 - erro de tipo
+91 - feito
 ------------------------------------------------------------------------------------------------------------------
 
 
@@ -82,4 +92,4 @@ semântica método final
 variáveis e campos podem ter o mesmo nome: campos são diferenciados pelo self
 melhorar mensagens de erro genéricas
 parar de dar erro quando atribui classe ou string = nil
-não deixar usar variável de instância sem self, talvez só precise busca inLocal ao invés de inClass
+não deixar usar variável de instância sem self, talvez só precise busca inLocal ao invés de inClass (feito)

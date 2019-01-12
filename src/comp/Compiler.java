@@ -335,7 +335,7 @@ public class Compiler {
 				}
 			}
 		}else if(method != null) {
-			error("The method " + id + " is definy in super class and 'override' is missing");
+			error("The method '" + id + "' is definy in super class and 'override' is missing");
 		}
 		if ( lexer.token != Token.LEFTCURBRACKET ) {
 			error("'{' expected");
@@ -470,7 +470,7 @@ public class Compiler {
 			right = expr();
 			if (right == null)
 				error("Expression expected");
-			if (checkType(left.getType(), right.getType()) == false) {
+			if (checkType(left.getType(), right.getType()) == false && right.getType() != Type.nilType) {
 				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
 			}else if(ehvalido == false) {
 				error("error on letf-hand side of assignment, expected a variable or self.variable");
@@ -599,15 +599,11 @@ public class Compiler {
 	}
 
 	private IfStat ifStat() {
-		
 		next();
-		
 		Expr e = expr();
-		
 		if (e == null) {
 			error("If expression expected");
 		}
-		
 		if (e.getType() != Type.booleanType) {
 			error("Only boolean expressions are allowed in if statements");
 		}
@@ -668,6 +664,9 @@ public class Compiler {
 			lexer.nextToken();
 			Expr right = expr();
 			if (right == null) return null;
+			if(!checkType(left.getType(), right.getType())) {
+				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
+			}
 			return new CompositeExpr(left, op, right);
 		}
 		
@@ -852,18 +851,13 @@ public class Compiler {
 }
 
 	private AuxFactor auxId() {
-		
 		Type type = null;
-		
 		if(lexer.token == Token.ID) {
 			String s = lexer.getStringValue();
 			lexer.nextToken();
 			if (lexer.token == Token.DOT) {
-				
 				lexer.nextToken();
-				
 				if (lexer.token == Token.NEW) {
-					
 					lexer.nextToken();
 					ClassDec c = (ClassDec) symbolTable.getInGlobal(s);
 					if (c == null) {
@@ -940,11 +934,15 @@ public class Compiler {
 			} else {
 				
 				Variable v = (Variable) symbolTable.getInClass(s);		
-				
+				Variable v1 = (Variable) symbolTable.getInLocal(s);	
 				if (v == null) {
 					error("Variable '" + s + "' not declared");
+				}else {
+					error("A self."+ s +" is expected");
 				}
-				
+				if(v1 == null) {
+					error("Variable '" + s + "' not declared");
+				}
 				type = v.getType();
 				ehvalido = true;
 			}
@@ -1128,7 +1126,6 @@ public class Compiler {
 		Type type = type();
 		ArrayList<Variable> fieldList = new ArrayList<>();
 		
-		 
 		if ( lexer.token != Token.ID ) {
 			this.error("A variable name was expected");
 		}
