@@ -18,7 +18,7 @@ end
 
 class B extends A 
    
-   override func put: Int x {
+    func put: Int x {
     }   
 end
 

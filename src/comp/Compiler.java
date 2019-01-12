@@ -401,14 +401,11 @@ public class Compiler {
 
 	private ArrayList<Statement> statementList() {
 	
-		
 		ArrayList<Statement> listStmt = new ArrayList<>();
 		  // only '}' is necessary in this test
 		while ( lexer.token != Token.RIGHTCURBRACKET && lexer.token != Token.END && lexer.token != Token.UNTIL ) {
 			listStmt.add(statement());
-		}
-		
-		
+		}	
 		return listStmt;
 	}
 
@@ -555,21 +552,15 @@ public class Compiler {
 	}
 
 	private ReturnStat returnStat() {
-		
 		next();
-		
 		Expr e = expr();
-				
 		//System.out.println(lexer.token);
-		
 		if (e == null) {
 			error("Return expression expected");
 		}
-		
 		if (currentMethod.getReturnType() == null) {
 			error("Method '" + currentMethod.getMethodName() + "' does not have return");
 		}
-		
 		if (checkType(currentMethod.getReturnType(), e.getType()) == false) {
 			error("Return type and method type are differents");
 		}
@@ -578,10 +569,13 @@ public class Compiler {
 	}
 
 	private WhileStat whileStat() {
-			
+		//System.out.println(ehLoop);	
 		next();
+		boolean loopInsideLoop = false;
 		Expr e = expr();
-		
+		if(ehLoop) { // se ehLopp ja for verdadeiro, quer dizer q eh loop dentro de um loop
+			loopInsideLoop = true;
+		}
 		if (e == null) {
 			error("While expression expected");
 		}
@@ -594,7 +588,9 @@ public class Compiler {
 		next();
 		ehLoop = true;
 		ArrayList<Statement> statList = statementList();
-		ehLoop = false;
+		if(!loopInsideLoop) {
+			ehLoop = false;
+		}
 		check(Token.RIGHTCURBRACKET, "'}' was expected after the 'while' statement");
 		
 		next();

@@ -84,7 +84,7 @@ public class Lexer {
                     tokenPos++;
                 }
                 if ( input[tokenPos] == ':' ) {
-                    ident.append(input[tokenPos]);
+                    //ident.append(input[tokenPos]);
                     tokenPos++;
                 	stringValue = ident.toString();
                 	token = Token.IDCOLON;

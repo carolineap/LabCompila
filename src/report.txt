@@ -9,9 +9,9 @@ Em todos os testes abaixo, o compilador sinalizou o erro na linha correta (quand
 
 A lista abaixo contém o nome do arquivo de teste, a mensagem que ele sinalizou e a mensagem sugerida pelo arquivo de teste
 
-testes/ER-SEM29.ci
-The compiler message was: "The method 'put:' doesn't exist in superclass or the signature is different"
-The 'ce' message is:      "Method 'put' of the subclass 'B' has a signature different from the same method of superclass 'A'"
+testes/ER-SEM26.ci
+The compiler message was: "'break' statement found outside a 'while' statement"
+The 'ce' message is:      "'break' statement found outside a 'while' statement"
 
 
 Para o caso de teste que você utilizou, o compilador está correto
