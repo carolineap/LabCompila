@@ -195,17 +195,12 @@ public class Compiler {
          
 		lexer.nextToken();
 		
-		
 		if ( lexer.token == Token.EXTENDS ) {
-			
-			lexer.nextToken();
-			
+			lexer.nextToken();	
 			if ( lexer.token != Token.ID )
 				error("Identifier expected");
-			
 			superclassName = lexer.getStringValue();
 			superclass = (ClassDec) symbolTable.getInGlobal(superclassName);
-			
 			if (superclass != null) {
 				if (superclass.getInheritable() == false) {
 					error("Superclass '" + superclassName + "' is not inheritable");
@@ -213,7 +208,6 @@ public class Compiler {
 			} else {
 				error("The superclass '" + superclassName + "' does not exist");
 			}
-			
 			ClassDec aux = superclass;
 			do {
 				ArrayList<Member> memberlist = aux.getMembers();
@@ -225,14 +219,11 @@ public class Compiler {
 				}
 				aux = aux.getsClass();
 			}while(aux != null);
-			
 			lexer.nextToken();
 		}
-		
 		ClassDec classDec = new ClassDec(className, superclass, isInheritable); 
 		
 		currentClass = classDec;
-		
         symbolTable.putInGlobal(className, classDec);
 	
 		ArrayList<Member> ml = memberList();
@@ -327,9 +318,21 @@ public class Compiler {
 		
 		MethodDec method = (MethodDec) symbolTable.getInSuperClassTable(id);
 		if(q.override()) {
-			
+			if(method == null) {
+				error("The method " + id +"doesn't exist in superclass ");
+			}else if(method.getQualifier().getToken1() == Token.FINAL) {
+				error("The method in superclass is final, so it can not be override");
+			}else if(paramList.size() != method.getParamList().size()) {
+				error("The signature of the method is different from the signature of the super class");
+			}else if(returnType != method.getReturnType()) {
+				error("The Return type is different from the super class");
+			}
+			for(int i = 0; i < method.getParamList().size(); i++) {
+				if(paramList.get(i).getType() != method.getParamList().get(i).getType()) {
+					error("The signature of the method is different from the signature of the super class");
+				}
+			}
 		}
-		
 		if ( lexer.token != Token.LEFTCURBRACKET ) {
 			error("'{' expected");
 		}
@@ -456,29 +459,22 @@ public class Compiler {
 	}
 	
 	private AssignExpr assignExpr() {	
-				
 		AssignExpr a = null;
-			
 		Expr left = expr();
-		
 		if (left == null)
 			error("Statement expected");
-		
 		//System.out.println(left.getType());
 		Expr right = null;
-		
 		if (lexer.token == Token.ASSIGN) {
-			
 			next();
 			right = expr();
 			if (right == null)
 				error("Expression expected");
 			if (checkType(left.getType(), right.getType()) == false) {
 				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
-			}//else if(left.getType() != Type.undefType) {
-				//error("error on letf-hand side of assignment ");
-			//}
-			
+			}else if(left.getType() != Type.undefType) {
+				error("error on letf-hand side of assignment, the expression must not have a return ");
+			}
 		}		
 		
 		return new AssignExpr(left, right);
@@ -805,33 +801,22 @@ public class Compiler {
 	}
 	
 	private AuxFactor auxSuper() {
-		
 		Type type = Type.nilType;
-		
 		if(lexer.token == Token.SUPER){
-			
 			if (currentClass.getParent() == null)
 				error("Class '" + currentClass.getName() + "' does not have a parent");
-			
 			lexer.nextToken();
-			
 			if(lexer.token == Token.DOT) {
-				
 				lexer.nextToken();
-			
 				if(lexer.token == Token.ID) {
-				
 					String memberName = lexer.getStringValue();
 					lexer.nextToken();
-					
 					Variable f = searchFields(currentClass.getParent(), memberName);
 				
 					if (f != null) {
 						type = f.getType();
 					} else {
-					
 						MethodDec m = searchMethod(currentClass.getParent(), memberName);
-				
 						if (m != null) {	
 							if (m.getParamList().isEmpty() == false) {
 								error("Method '" + memberName + "' has parameters");

@@ -1,8 +1,12 @@
-Relat√≥rio do Compilador
+RelatÛrio do Compilador
 
-1 erros foram sinalizados em 1 arquivos sem erro (100%)
+0 de um total de 1 erros que deveriam ser sinalizados n„o o foram (0%)
+1 erros foram sinalizados na linha errada (100%)
+Todos os erros que deveriam ter sido sinalizados o foram
 ######################################################
-Erros que foram sinalizados mas n√£o deveriam ter sido:
+Erros que foram sinalizados na linha errada:
 
-testes/OK-SIN14.ci, 15, Class member or 'end' expected
+testes/ER-SEM30.ci
+    correto:    22, Method 'put' of subclass 'B' has a signature different from method inherited from superclass 'A' (comp.Compiler.methodDec())
+    sinalizado: 32, error on letf-hand side of assignment, the expression must not have a return 
 
