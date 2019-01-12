@@ -289,7 +289,6 @@ public class Compiler {
 		if ( lexer.token == Token.ID ) {
 			// unary method
 			id = lexer.getStringValue();
-						
 			lexer.nextToken();
 
 		} else if ( lexer.token == Token.IDCOLON ) {	
@@ -319,11 +318,14 @@ public class Compiler {
 		MethodDec method = (MethodDec) symbolTable.getInSuperClassTable(id);
 		if(q.override()) {
 			if(method == null) {
-				error("The method " + id +"doesn't exist in superclass ");
+				error("The method '" + id +"' doesn't exist in superclass or the signature is different");
+				
 			}else if(method.getQualifier().getToken1() == Token.FINAL) {
 				error("The method in superclass is final, so it can not be override");
+				
 			}else if(paramList.size() != method.getParamList().size()) {
 				error("The signature of the method is different from the signature of the super class");
+			
 			}else if(returnType != method.getReturnType()) {
 				error("The Return type is different from the super class");
 			}
@@ -332,6 +334,8 @@ public class Compiler {
 					error("The signature of the method is different from the signature of the super class");
 				}
 			}
+		}else if(method != null) {
+			error("The method " + id + " is definy in super class and 'override' is missing");
 		}
 		if ( lexer.token != Token.LEFTCURBRACKET ) {
 			error("'{' expected");
@@ -364,9 +368,7 @@ public class Compiler {
                 error("The function " + id + " is the type:  " + returnType.getName() + " and dont have a return");
             }
         }
-        
         next();
-
         symbolTable.removeLocalIdent();
         
 		return m;
@@ -460,6 +462,7 @@ public class Compiler {
 	
 	private AssignExpr assignExpr() {	
 		AssignExpr a = null;
+		ehvalido = false; //flag sendo usada para verificar se o lado esquerdo do = eh is ou self.id
 		Expr left = expr();
 		if (left == null)
 			error("Statement expected");
@@ -472,8 +475,8 @@ public class Compiler {
 				error("Expression expected");
 			if (checkType(left.getType(), right.getType()) == false) {
 				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
-			}else if(left.getType() != Type.undefType) {
-				error("error on letf-hand side of assignment, the expression must not have a return ");
+			}else if(ehvalido == false) {
+				error("error on letf-hand side of assignment, expected a variable or self.variable");
 			}
 		}		
 		
@@ -947,6 +950,7 @@ public class Compiler {
 				}
 				
 				type = v.getType();
+				ehvalido = true;
 			}
 		} 
 		return new PrimaryExpr(type);
@@ -999,6 +1003,7 @@ public class Compiler {
 						
 						if (f != null) {
 							type = f.getType();
+							ehvalido = true;
 						} else {
 							MethodDec m = searchMethod(currentClass, memberName);
 							if (m != null) {	
@@ -1411,5 +1416,6 @@ public class Compiler {
 	private Lexer			lexer;
 	private ErrorSignaller	signalError;
 	private boolean  ehLoop;
+	private boolean ehvalido;
 
 }

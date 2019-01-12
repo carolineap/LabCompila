@@ -19,7 +19,7 @@ end
 
 class B extends A 
     
-    func put -> Int {
+    override func put -> Int {
         return 0;
     }
 
