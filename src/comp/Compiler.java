@@ -954,45 +954,52 @@ public class Compiler {
 	private AuxFactor auxSelf() {
 		
 		Type type = null;
-		
+		ArrayList<Expr> exprList = new ArrayList<>();
+		MethodDec method = null;
 		if(lexer.token == Token.SELF) {
-			
 			lexer.nextToken();
 			
 			if(lexer.token == Token.DOT) {
-				
 				lexer.nextToken();
 				
 				if(lexer.token == Token.ID) {
 					
 					String memberName = lexer.getStringValue();
+					method = (MethodDec) symbolTable.getInClass(memberName);
 					lexer.nextToken();
-					
 					if(lexer.token == Token.DOT) {
-						
-						//FALTA ESSE
-						
+						Object obj = symbolTable.getInClass(memberName);
+						if(obj == null || (obj instanceof Variable) == false) {
+							error("Variable '" + memberName + "' does not exist or  was not declared");
+						}
+						Variable v = (Variable) obj;
 						lexer.nextToken();
-						
 						if(lexer.token == Token.ID) {
 							String s1 = lexer.getStringValue();
 							lexer.nextToken();
-							return new PrimaryExpr(null);
-							
+						
 						}else if(lexer.token == Token.IDCOLON) {
-							
-							//FALTA ESSE
-								
 							String s2 = lexer.getStringValue();
 							next();
-						
-							return new PrimaryExpr(null);
-							
-						}else {
+							exprList = exprList();	
+						}else{
 							error("id or idcolon expected");
 						}
-					}else {
-								
+						ClassDec classe = (ClassDec) symbolTable.getInGlobal(v.getType().getName());
+						method = searchMethod(classe, memberName);
+						
+						if(method == null) {
+							error("The method '" + memberName +"' doesn't exist in superclass or the signature is different");
+						}else if(exprList.size() != method.getParamList().size()) {
+							error("The signature of the method is different from the signature of the super class");
+							
+						}
+						for(int i = 0; i < method.getParamList().size(); i++) {
+							if(exprList.get(i).getType() != method.getParamList().get(i).getType()) {
+								error("The signature of the method is different from the signature of the super class");
+							}
+						}
+					}else{	
 						Variable f = searchFields(currentClass, memberName);
 						
 						if (f != null) {
@@ -1022,7 +1029,7 @@ public class Compiler {
 					if (m == null) {
 						error("Superclasses or class '" + currentClass.getName() + "' does not have the method '" + methodName + "'");
 					}
-					ArrayList<Expr> exprList = exprList();
+					exprList = exprList();
 					checkParameters(exprList, m.getParamList(), methodName);
 					type = m.getReturnType();
 					
