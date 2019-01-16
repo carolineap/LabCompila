@@ -1,3 +1,6 @@
+/* 	Caroline Aparecida de Paula Silva 
+ 	Isabela Sayuri Matsumoto 		*/
+ 	
 package ast;
 import java.util.ArrayList;
 import lexer.Token;
@@ -25,6 +28,7 @@ public class MethodDec extends Member {
 	
 	public Qualifier getQualifier() {
 		return this.qualifier;
+		
 	}
 	
 	public Type getReturnType() {
@@ -33,7 +37,7 @@ public class MethodDec extends Member {
 	
 	private String id;
 	private ArrayList<Variable> paramList;
-	private Type returnType;
+	private Type returnType = Type.nilType;
 	private ArrayList<Statement> statList;
 	private Qualifier qualifier;
 	

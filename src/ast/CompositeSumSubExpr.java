@@ -1,3 +1,6 @@
+/* 	Caroline Aparecida de Paula Silva 
+ 	Isabela Sayuri Matsumoto 		*/
+ 	
 package ast;
 
 import lexer.Token;
@@ -16,8 +19,12 @@ public class CompositeSumSubExpr extends SumSubExpr {
 		Type rightType = right.getType();
 		Type leftType = left.getType();
 		
-		if (leftType == Type.intType && rightType == leftType) {
+		if ((op == Token.PLUS || op == Token.MINUS) && leftType == Type.intType && rightType == leftType) {
 			return leftType;
+		}
+		
+		if (op == Token.OR && left.getType() == Type.booleanType && right.getType() == left.getType()) {
+			return Type.booleanType;
 		}
 		
 		return Type.undefType;

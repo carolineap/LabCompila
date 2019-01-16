@@ -1,15 +1,68 @@
-Análise Sintática:
-Compiler.java
-Carol: 	método classDec() 
-		método fieldDec() 
-		método methodDec()
-		criei método paramaterList() (FormalParamDecl)
-		método expr();
-		criei método simpleExpr()
-		criei método sumSubExpr()
-		criei método term()
-		criei método signalFactor() (Não deu pra juntar com o signal porque o factor chama a si mesmo)
-		criei método factor() (Juntei aqui o Object Creation e o PrimaryExpr, ficou uma tripona tem que otimizar)
-		criei método basicValue() (
-		criei método exprList()
-		VERIFICAR ASSIGN ERRO SIN04
+Novos testes:
+
+CERTO:
+
+ER-SIN01
+ER-SIN02
+ER-SIN03
+ER-SIN04
+ER-SIN05
+ER-SIN06
+ER-SIN07
+ER-SIN08
+ER-SIN09
+ER-SIN10
+ER-SIN11
+ER-SIN19
+ER-SIN23
+ER-SIN24
+ER-SIN25
+ER-SIN26
+ER-SIN27
+ER-SIN28
+ER-SIN29
+ER-SIN31
+ER-SIN32
+ER-SIN33
+ER-SIN34
+ER-SIN35
+ER-SIN36
+ER-SIN37
+ER-SIN38
+ER-SIN39
+ER-SIN40
+ER-SIN41
+ER-SIN43
+ER-SIN44
+ER-SIN57
+ER-SIN58
+ER-SIN59
+ER-SIN60
+ER-SIN61
+ER-SIN62
+ER-SIN63
+ER-SIN-EXTRA02
+OK-SIN04
+OK-SIN08
+OK-SIN10
+OK-SIN11
+OK-SIN12
+
+
+--------------------------------------------------------------------
+
+dão o erro certo mas na linha errada
+ER-SIN18
+ER-SIN20
+ER-SIN21
+ER-SIN22
+EXTRA
+EXTRA01
+
+--------------------------------------------------------------------
+
+12/13/14/15/16/17 dá uns erros de codificação no meu pc
+ERR-SIN30 erro de execução, talvez porque esse número deve dar overflow no java mesmo
+OK-SIN13,  erro de execução ????
+
+

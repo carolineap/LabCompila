@@ -1,3 +1,6 @@
+/*  Caroline Aparecida de Paula Silva 
+  Isabela Sayuri Matsumoto    */
+  
 package lexer;
 
 import java.util.Hashtable;
@@ -84,7 +87,7 @@ public class Lexer {
                     tokenPos++;
                 }
                 if ( input[tokenPos] == ':' ) {
-                    //ident.append(input[tokenPos]);
+                    ident.append(input[tokenPos]);
                     tokenPos++;
                 	stringValue = ident.toString();
                 	token = Token.IDCOLON;

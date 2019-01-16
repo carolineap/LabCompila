@@ -1,3 +1,6 @@
+/*  Caroline Aparecida de Paula Silva 
+    Isabela Sayuri Matsumoto        */
+    
 package ast;
 
 abstract public class Type {
@@ -14,7 +17,7 @@ abstract public class Type {
     
   
     public String getName() {
-        return name;
+        return this.name;
     }
 
 

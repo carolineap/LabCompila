@@ -1,3 +1,6 @@
+/*  Caroline Aparecida de Paula Silva 
+  Isabela Sayuri Matsumoto    */
+  
 package comp;
 import java.io.PrintWriter;
 import java.util.ArrayList;

@@ -1,3 +1,6 @@
+/* 	Caroline Aparecida de Paula Silva 
+ 	Isabela Sayuri Matsumoto 		*/
+ 	
 package ast;
 
 import java.util.ArrayList;
@@ -12,10 +15,6 @@ public class ClassDec extends Type {
 		this.parent = parent;
 		this.isInheritable = isInheritable;
 		this.memberList = new ArrayList<>();
-	}
-	
-	public String getName() {
-		return name;
 	}
 	
 	public ClassDec getParent() {
@@ -45,6 +44,10 @@ public class ClassDec extends Type {
 		
 	}
 	
+	public String getClassName() {
+		return this.name;
+	}
+	
 	public ArrayList<Variable> getFields() {
 		
 		
@@ -71,10 +74,7 @@ public class ClassDec extends Type {
 	public ArrayList<Member> getMembers() {
 		return this.memberList;
 	}
-	public ClassDec getsClass() {
-		return this.parent;
-	}
-	private String name;
+		private String name;
 	private ClassDec parent;
 	private ArrayList<Member> memberList;
 	private boolean isInheritable;

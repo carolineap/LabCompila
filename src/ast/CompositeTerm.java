@@ -1,3 +1,6 @@
+/* 	Caroline Aparecida de Paula Silva 
+ 	Isabela Sayuri Matsumoto 		*/
+ 	
 package ast;
 
 import lexer.Token;
@@ -15,7 +18,6 @@ public class CompositeTerm extends Term {
 		
 		Type rightType = right.getType();
 		Type leftType = left.getType();
-		
 		
 		if (this.op == Token.AND && leftType == Type.booleanType && rightType == leftType) {
 			return leftType;

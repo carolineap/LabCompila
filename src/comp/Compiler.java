@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import org.omg.CORBA.Current;
 
+import com.sun.xml.internal.ws.api.pipe.Fiber;
+
 import ast.*;
 import lexer.Lexer;
 import lexer.Token;
@@ -35,6 +37,7 @@ public class Compiler {
 		ArrayList<ClassDec> CianetoClassList = new ArrayList<>();
 		Program program = new Program(CianetoClassList, metaobjectCallList, compilationErrorList);
 		boolean thereWasAnError = false;
+		haveRun = false;
 		while ( lexer.token == Token.CLASS ||
 				(lexer.token == Token.ID && lexer.getStringValue().equals("open") ) ||
 				lexer.token == Token.ANNOT ) {
@@ -74,33 +77,14 @@ public class Compiler {
 			}
 		}
 		
-		if (!thereWasAnError) {						
-			boolean flag = false;
-			for (ClassDec c : CianetoClassList) {
-				if (c.getName().equals("Program")) {
-					ArrayList<MethodDec> methods = c.getMethods();
-					for (MethodDec m: methods) {
-						if (m.getMethodName().equals("run") && m.getQualifier().getToken1() == Token.PUBLIC) {
-							if (m.getParamList().isEmpty()) {
-								flag = true;
-							} else {
-								break;
-							}
-						}	
-					}
-					break;
-				}
-			}
-			
-			if (flag == false) {
-				try {
-					error("Every program must have a class named 'Program' with a public parameterless method called 'run'");
-				}
-				catch( CompilerError e) {
-				}
+		if ( !thereWasAnError && haveRun == false) {
+			try {
+				error("Every program must have a class named 'Program' with a public parameterless method called 'run'");
+			} catch( CompilerError e) {
 			}
 		}
 
+		
 		return program;
 	}
 
@@ -217,22 +201,39 @@ public class Compiler {
 						symbolTable.putInSuperClassTable(((MethodDec)m).getMethodName(), m);
 					}
 				}
-				aux = aux.getsClass();
+				aux = aux.getParent();
 			}while(aux != null);
 			lexer.nextToken();
 		}
 		ClassDec classDec = new ClassDec(className, superclass, isInheritable); 
 		
 		currentClass = classDec;
-        symbolTable.putInGlobal(className, classDec);
-	
-		ArrayList<Member> ml = memberList();
-		
+       
+		symbolTable.putInGlobal(className, classDec);
+
+        ArrayList<Member> ml = memberList();
+       
 		currentClass.setMemberList(ml);
 		
 		if (ml == null || lexer.token != Token.END)
 			error("Class member or 'end' expected");
 		lexer.nextToken();
+		
+		if (currentClass.getName().equals("Program")) {
+        	
+			boolean flag  = false;
+			
+			for (Member m : ml) {
+        		if (m instanceof MethodDec && ((MethodDec) m).getMethodName().equals("run")) {
+        			flag = true;
+        		}
+        	}
+        
+        	if (flag == false) {
+				error("Method 'run' was not found in class 'Program'");
+			}
+		
+		}
 		
 		symbolTable.removeClassIdent();
 
@@ -279,7 +280,7 @@ public class Compiler {
 	}
 
 	private MethodDec methodDec(Qualifier q) {
-		
+		haveReturn = false;
 		String id = null;
 		ArrayList<Variable> paramList = new ArrayList<>();
 		Type returnType = null;
@@ -306,8 +307,9 @@ public class Compiler {
 		}
 		
 		Object obj = symbolTable.getInClass(id);
+		
 		if (obj != null) 
-			error(id + " has been redeclared");
+			error("Member '"+ id + "' has been redeclared");
 		
 		if ( lexer.token == Token.MINUS_GT ) {
 			// method declared a return type
@@ -318,56 +320,67 @@ public class Compiler {
 		MethodDec method = (MethodDec) symbolTable.getInSuperClassTable(id);
 		if(q.override()) {
 			if(method == null) {
-				error("The method '" + id +"' doesn't exist in superclass or the signature is different");
-				
+				error("The method '" + id +"' doesn't exist in superclass or the signature is different");	
 			}else if(method.getQualifier().getToken1() == Token.FINAL) {
 				error("The method in superclass is final, so it can not be override");
 				
 			}else if(paramList.size() != method.getParamList().size()) {
-				error("The signature of the method is different from the signature of the super class");
+				error("The signature of the method is different from the signature of the superclass");
 			
 			}else if(returnType != method.getReturnType()) {
-				error("The Return type is different from the super class");
+				error("The return type is different from the superclass");
 			}
 			for(int i = 0; i < method.getParamList().size(); i++) {
 				if(paramList.get(i).getType() != method.getParamList().get(i).getType()) {
-					error("The signature of the method is different from the signature of the super class");
+					error("The signature of the method is different from the signature of the superclass");
 				}
 			}
 		}else if(method != null) {
-			error("The method '" + id + "' is definy in super class and 'override' is missing");
+			error("The method '" + id + "' is defined in superclass and 'override' is missing");
 		}
 		if ( lexer.token != Token.LEFTCURBRACKET ) {
 			error("'{' expected");
 		}
 
+					
+		MethodDec m = new MethodDec(id, paramList, returnType, q);
+		
+		if (currentClass.getName().equals("Program")) {
+			if (m.getMethodName().equals("run")) {
+				if (m.getQualifier().getToken1() == Token.PUBLIC) {
+					if (m.getParamList().isEmpty() == false || m.getReturnType() != null) {
+						error("Class 'Program' must have a public, parameterless and no return method called 'run'");
+					} else {
+						haveRun = true;
+					}
+				} else {
+					error("Method 'run' of class 'Program' must be a public method");
+				}
+			}
+		} 
+			
 		next();
 		
-		MethodDec m = new MethodDec(id, paramList, returnType, q);
-				
 		currentMethod = m;
+		
+		symbolTable.putInClass(id, m);
 		
 		statList = statementList();
 		
 		currentMethod.setStatList(statList);
-		
-		symbolTable.putInClass(id, m);
+	
 		
 		if ( lexer.token != Token.RIGHTCURBRACKET ) {
 			error("'}' expected");
 		}
 		
         if(returnType != null){
-            boolean flag = false; 
-            for(Statement s: statList){
-                if(s instanceof ReturnStat){
-                    flag = true;
-                }
-            }
-            if(flag == false){
-                error("The function " + id + " is the type:  " + returnType.getName() + " and dont have a return");
+        	
+            if(haveReturn == false){
+                error("The function " + id + " has type " + returnType.getName() + " and does not have a return");
             }
         }
+        
         next();
         symbolTable.removeLocalIdent();
         
@@ -381,7 +394,7 @@ public class Compiler {
 		while (true) {	
 			
 			Type t = type();
-			
+						
 			if (lexer.token != Token.ID) 
 				error("Identifier expected");
 			
@@ -459,23 +472,33 @@ public class Compiler {
 	
 	private AssignExpr assignExpr() {	
 		AssignExpr a = null;
+		isReadExpr = false;
+		isMethod = null; //flag sendo usada para verificar se statement e metodo com retorno
 		ehvalido = false; //flag sendo usada para verificar se o lado esquerdo do = eh is ou self.id
 		Expr left = expr();
 		if (left == null)
-			error("Statement expected");
+			error("Expression expected");
 		//System.out.println(left.getType());
 		Expr right = null;
 		if (lexer.token == Token.ASSIGN) {
 			next();
 			right = expr();
 			if (right == null)
-				error("Expression expected");
-			if (checkType(left.getType(), right.getType()) == false && right.getType() != Type.nilType) {
-				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
+				error("Expression expected");			
+			if (!checkType(left.getType(), right.getType())) {
+				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side: cannot assign " + right.getType().getName() + " to " + left.getType().getName());
 			}else if(ehvalido == false) {
 				error("error on letf-hand side of assignment, expected a variable or self.variable");
 			}
-		}		
+		} else {
+			if (isMethod == null && isReadExpr == false) {
+				error("Statement expected");
+			} else {
+				if (isMethod != null && isMethod.getReturnType() != null) {
+					error("Method '" + isMethod.getMethodName() + "' returns a value that is not used");
+				}
+			}
+		}
 		
 		return new AssignExpr(left, right);
 	}
@@ -483,13 +506,13 @@ public class Compiler {
 	private LocalDec localDec() {
 		
 		next();
-		
+
 		ArrayList<Variable> idList = new ArrayList<>();
 		Type t = type();
 		Expr e = null;
 		
-		check(Token.ID, "Missing identifier");
-		
+		check(Token.ID, "Identifier expected");
+				
 		while ( lexer.token == Token.ID ) {
 			
 			Variable v = new Variable(lexer.getStringValue(), t);
@@ -500,7 +523,8 @@ public class Compiler {
             symbolTable.putInLocal(v.getName(), v);
             idList.add(v);
             
-			next();
+			lexer.nextToken();
+								
 			if ( lexer.token == Token.COMMA ) {
 				next();
 				check(Token.ID, "Missing identifier");
@@ -516,7 +540,7 @@ public class Compiler {
 			if (e == null) {
 				error("Assign expression expected");
 			}
-		}	
+		}		
 		
 		return new LocalDec(t, idList, e);
 
@@ -564,6 +588,8 @@ public class Compiler {
 		if (checkType(currentMethod.getReturnType(), e.getType()) == false) {
 			error("Return type and method type are differents");
 		}
+		
+		haveReturn = true;
 		
 		return new ReturnStat(e);
 	}
@@ -640,101 +666,108 @@ public class Compiler {
 		next();
 		check(Token.IDCOLON, "'print:' or 'println:' was expected after 'Out.'");
 		String printName = lexer.getStringValue();
+		if(!printName.equals("print:") && !printName.equals("println:")) {
+			this.error("'print:' or 'println:' was expected after 'Out.'");
+		}
 		next();
 		Expr e = expr();
 		if (e == null) {
 			error("Write expression expected");
 		}
 		if (e.getType() != Type.intType && e.getType() != Type.stringType) {
-			error("Type error on write expression");
+			error("Type error on write expression: only int and string type are allowed");
 		}
 		return new WriteStat(e);
 	}
 
 	private Expr expr() {
 		
-		
-		SimpleExpr left = simpleExpr();
-		
-		if (left == null) return null;
-			
-		if (lexer.token == Token.EQ || lexer.token == Token.LT || lexer.token == Token.GT || 
+		Expr left = simpleExpr();
+
+		while (lexer.token == Token.EQ || lexer.token == Token.LT || lexer.token == Token.GT || 
 			lexer.token == Token.LE || lexer.token == Token.GE || lexer.token == Token.NEQ) {
-			Token op = lexer.token;
+	
+			Token op = lexer.token;		
+			
 			lexer.nextToken();
-			Expr right = expr();
-			if (right == null) return null;
-			if(!checkType(left.getType(), right.getType())) {
-				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
+			
+			Expr right = simpleExpr();
+			
+			Type old = left.getType();
+			
+			left = new CompositeExpr(left, op, right);
+			
+			if (left.getType() == Type.undefType) { 
+				error("Type error: cannot compare " + old.getName() + " and " + right.getType().getName());
 			}
-			return new CompositeExpr(left, op, right);
+			
 		}
 		
-			
 		return left;
-		
 	}
 	
-	private SimpleExpr simpleExpr() {
-		
-		SumSubExpr left = sumSubExpr();
-			
-		if (left == null) return null;
-		
-		if (lexer.token == Token.CONCAT) {
+	private Expr simpleExpr() {
+		Expr left = sumSubExpr();
+				
+		while (lexer.token == Token.CONCAT) {
 			Token op = lexer.token;
 			lexer.nextToken();	
-			SimpleExpr right = simpleExpr();
-			if (right == null) return null;
-			return new CompositeSimpleExpr(left, op, right);
-		}
+			
+			Expr right = sumSubExpr();
+			
+			Type old = left.getType();
 
+			left = new CompositeSimpleExpr(left, op, right);
+	
+			if (left.getType() == Type.undefType) {
+				error("Type error: cannot concat " + old.getName() + " and " + right.getType().getName());
+			}
+			
+		}
 		return left;
 	}
 	
-	/**
-	 * @return
-	 */
-	private SumSubExpr sumSubExpr( ) {
+	private Expr sumSubExpr( ) {	
+		Expr left = term();
 		
-		Term left = term();
-		
-		if (left == null) return null;
-		
-		if (lexer.token == Token.PLUS || lexer.token == Token.MINUS || lexer.token == Token.OR) {
+		while (lexer.token == Token.PLUS || lexer.token == Token.MINUS || lexer.token == Token.OR) {
 			Token op = lexer.token;
 			lexer.nextToken();
-			SumSubExpr right = sumSubExpr();
-			if (right == null) return null;
-			return new CompositeSumSubExpr(left, op, right);
+			Expr right = term();
+			Type old = left.getType();
+			left = new CompositeSumSubExpr(left, op, right);
+			if (left.getType() == Type.undefType) {
+				error("Type error: cannot use operator " + op.toString() + " with "  + old.getName() + " and " + right.getType().getName());
+			}
+			
 		}
 		
 		return left;
 	}
 	
-	private Term term() {
+	private Expr term() {
 		
-		SignalFactor left = signalFactor();
-
-		
-		if (left == null) return null;
-		
-		if (lexer.token == Token.MULT || lexer.token == Token.DIV || lexer.token == Token.AND) {
+		Expr left = signalFactor();
+				
+		while (lexer.token == Token.MULT || lexer.token == Token.DIV || lexer.token == Token.AND) {
 			Token op = lexer.token;
 			lexer.nextToken();
-			Term right = term();
-			if (right == null) return null;
-			return new CompositeTerm(left, op, right);
+			Expr right = signalFactor();
+			Type old = left.getType();
+			left = new CompositeTerm(left, op, right);
+			
+			if (left.getType() == Type.undefType) {
+				error("Type error: cannot use operator " + op.toString() + " with "  + old.getName() + " and " + right.getType().getName());
+			}
+			
 		}
 		
 		return left;
 	}
 	
 	private SignalFactor signalFactor() {
-		
 		Token op = null;
-		
-		
+	
 		if (lexer.token == Token.PLUS || lexer.token == Token.MINUS) {
 			op = lexer.token;
 			lexer.nextToken();
@@ -742,18 +775,22 @@ public class Compiler {
 		
 		Factor right = factor();
 		
-		if (right == null) 
-			return null;
-				
-		return new CompositeSignalFactor(op, right);
+		if (right == null)
+			error("Expression expected");
+		
+		CompositeSignalFactor c = new CompositeSignalFactor(op, right);
+		
+		if (c.getType() == Type.undefType) {
+			error("Type error: cannot use operator " + op.toString() + " as signal to " + right.getType().getName());
+		}
+		
+		return c;
 		
 	}
 	
 	private Factor factor() {
-		
 		Expr e;
 		ArrayList<Expr> eList;
-		
 		if (lexer.token == Token.LEFTPAR) {
 			lexer.nextToken();
 			e = expr();
@@ -764,7 +801,6 @@ public class Compiler {
 			lexer.nextToken();
 			return new ExprFactor(e);
 		} 
-		
 		if (lexer.token == Token.NOT) {
 			lexer.nextToken();
 			Factor f = factor();
@@ -773,15 +809,12 @@ public class Compiler {
 			}
 			return f;
 		} 
-		
 		if (lexer.token == Token.NIL) {
 			lexer.nextToken();
 			return new NullExpr(); 
 		} 
-		//Falta PrimaryExpr
 		if (lexer.token == Token.LITERALINT || lexer.token == Token.LITERALSTRING || lexer.token == Token.TRUE || lexer.token == Token.FALSE)
-				return basicValue();
-		
+			return basicValue();
 		
 		if (lexer.token == Token.SUPER) {
 			return auxSuper();
@@ -792,14 +825,12 @@ public class Compiler {
 		} else if (lexer.token == Token.IN) {
 			return readExpr();
 		}
-		
-		//error("Expression expected");
 		return null;
-		
 	}
 	
 	private AuxFactor auxSuper() {
-		Type type = Type.nilType;
+		Type type = Type.undefType;
+		
 		if(lexer.token == Token.SUPER){
 			if (currentClass.getParent() == null)
 				error("Class '" + currentClass.getName() + "' does not have a parent");
@@ -820,12 +851,12 @@ public class Compiler {
 								error("Method '" + memberName + "' has parameters");
 							}
 							type = m.getReturnType();
+							isMethod = m;
 						} else {
 							error("Superclass of '" + currentClass.getName() + "' does not have a member called '" + memberName + "'");
 						}
 					}			
 				} else if(lexer.token == Token.IDCOLON) {
-				
 					String methodName = lexer.getStringValue();
 					lexer.nextToken();
 					
@@ -834,12 +865,10 @@ public class Compiler {
 					if (m == null) {
 						error("Superclass of '" + currentClass.getName() + "' does not have a method called '" + methodName + "'");
 					}
-					
 					ArrayList<Expr> exprList = exprList();					
 					checkParameters(exprList, m.getParamList(), methodName);
-					
 					type = m.getReturnType();
-					
+					isMethod = m;
 				} else {
 					error("id or idcolon expected");
 				}
@@ -847,26 +876,30 @@ public class Compiler {
 				error("dot expected");
 			}
 	}
-	return new PrimaryExpr(type);
+	if (type != Type.undefType) {
+		return new PrimaryExpr(type);
+	} else {
+		return null;
+	}
 }
 
 	private AuxFactor auxId() {
-		Type type = null;
+		Type type = Type.undefType;
 		if(lexer.token == Token.ID) {
 			String s = lexer.getStringValue();
 			lexer.nextToken();
 			if (lexer.token == Token.DOT) {
-				lexer.nextToken();
+				lexer.nextToken();								
 				if (lexer.token == Token.NEW) {
+					
 					lexer.nextToken();
 					ClassDec c = (ClassDec) symbolTable.getInGlobal(s);
 					if (c == null) {
-						error(s + " is not a class");
+						error("'" + s + "' is not a class");
 					}
 					return new ObjectCreation(c);
 					
 				} else if (lexer.token == Token.ID ) {
-					
 					String memberName = lexer.getStringValue();
 					lexer.nextToken();
 					Variable v = (Variable)symbolTable.getInClass(s);	
@@ -874,57 +907,48 @@ public class Compiler {
 					if (v == null) {
 						error("Variable '" + s + "' not declared");
 					}
-					
 					ClassDec c = (ClassDec) symbolTable.getInGlobal(v.getType().getName());
 					if (c != null) {
-						
 						Variable f = searchFields(c, memberName);
-						
 						if (f != null) {
 							type = f.getType();
 						} else {
-						
 							MethodDec m = searchMethod(c, memberName);
-					
 							if (m != null) {	
 								if (m.getParamList().isEmpty() == false) {
 									error("Method '" + memberName + "' has parameters");
 								}
 								type = m.getReturnType();
+								isMethod = m;
 							} else {
 								error("Member '" + memberName + "' was not found in class '" + v.getType().getName() + "' or its superclasses");
 							}
 						}				
-						
 					} else {
 						error("Type of '" + s + "' does not have members");
 					}
 				} else if (lexer.token == Token.IDCOLON) {
 					
 					String methodName = lexer.getStringValue();
-					
-					lexer.nextToken();
-					
+					lexer.nextToken();	
 					Variable v = (Variable) symbolTable.getInClass(s);	
 					
 					if (v == null) {
-						error("Variable '" + s + "' not declared");
+						error("'" + s + "' not declared");
 					}
 					
 					ClassDec c = (ClassDec) symbolTable.getInGlobal(v.getType().getName());
 					
 					if (c != null) {
-
 						MethodDec m = searchMethod(c, methodName);
-	
 						if (m == null) {
 							error("Method '" + methodName + "' was not found in class '" + v.getType().getName() + "' or its superclasses");
-						}
-						
+						}						
 						ArrayList<Expr> exprList = exprList();					
 						checkParameters(exprList, m.getParamList(), methodName);
 						
 						type = m.getReturnType();
+						isMethod = m;	
 					} else {
 						error("Type of '" + s + "' does not have members");
 					}
@@ -932,76 +956,86 @@ public class Compiler {
 					error("id or idcolon expected");
 				}
 			} else {
+				Object obj = (Object)symbolTable.getInClass(s);
+				if (obj instanceof Variable) {
 				
-				Variable v = (Variable) symbolTable.getInClass(s);		
-				Variable v1 = (Variable) symbolTable.getInLocal(s);	
-				if (v == null) {
-					error("Variable '" + s + "' not declared");
-				}else {
-					error("A self."+ s +" is expected");
-				}
-				if(v1 == null) {
-					error("Variable '" + s + "' not declared");
-				}
-				type = v.getType();
-				ehvalido = true;
+					Variable v = (Variable) symbolTable.getInClass(s);		
+					Variable v1 = (Variable) symbolTable.getInLocal(s);	
+					if (v == null) {
+						error("Variable '" + s + "' not declared");
+					}else if (v.getQualifier().getToken1() != Token.PUBLIC){
+						error("self."+ s +" expected");
+					}	
+					if(v1 == null) {
+						error("Variable '" + s + "' not declared");
+					}
+					
+					type = v.getType();
+					ehvalido = true;
+				} else {
+					error("'" + s + "' not declared");
+				}	
 			}
 		} 
-		return new PrimaryExpr(type);
+		if (type != Type.undefType) {
+			return new PrimaryExpr(type);
+		} else {
+			return null;
+		}
 	}
 	
-	
 	private AuxFactor auxSelf() {
-		
-		Type type = null;
+
+		Type type = Type.undefType;
 		ArrayList<Expr> exprList = new ArrayList<>();
 		MethodDec method = null;
+		Member member = null;
+		String methodName = null;
 		if(lexer.token == Token.SELF) {
 			lexer.nextToken();
-			
 			if(lexer.token == Token.DOT) {
 				lexer.nextToken();
-				
 				if(lexer.token == Token.ID) {
-					
 					String memberName = lexer.getStringValue();
-					method = (MethodDec) symbolTable.getInClass(memberName);
+					member = (Member) symbolTable.getInClass(memberName);
 					lexer.nextToken();
 					if(lexer.token == Token.DOT) {
 						Object obj = symbolTable.getInClass(memberName);
 						if(obj == null || (obj instanceof Variable) == false) {
-							error("Variable '" + memberName + "' does not exist or  was not declared");
+							error("Variable '" + memberName + "' does not exist or was not declared");
 						}
 						Variable v = (Variable) obj;
 						lexer.nextToken();
 						if(lexer.token == Token.ID) {
-							String s1 = lexer.getStringValue();
+							methodName = lexer.getStringValue();
 							lexer.nextToken();
 						
 						}else if(lexer.token == Token.IDCOLON) {
-							String s2 = lexer.getStringValue();
+							methodName = lexer.getStringValue();
 							next();
 							exprList = exprList();	
 						}else{
 							error("id or idcolon expected");
 						}
 						ClassDec classe = (ClassDec) symbolTable.getInGlobal(v.getType().getName());
-						method = searchMethod(classe, memberName);
+						method = searchMethod(classe, methodName);
 						
 						if(method == null) {
 							error("The method '" + memberName +"' doesn't exist in superclass or the signature is different");
 						}else if(exprList.size() != method.getParamList().size()) {
-							error("The signature of the method is different from the signature of the super class");
+							error("The signature of the method is different from the signature of the superclass");
 							
 						}
 						for(int i = 0; i < method.getParamList().size(); i++) {
 							if(exprList.get(i).getType() != method.getParamList().get(i).getType()) {
-								error("The signature of the method is different from the signature of the super class");
+								error("The signature of the method is different from the signature of the superclass");
 							}
 						}
+						type = method.getReturnType();
+						isMethod = method;
 					}else{	
 						Variable f = searchFields(currentClass, memberName);
-						
+				
 						if (f != null) {
 							type = f.getType();
 							ehvalido = true;
@@ -1012,6 +1046,8 @@ public class Compiler {
 									error("Method '" + memberName + "' has parameters");
 								}
 								type = m.getReturnType();
+								isMethod = m;
+
 							} else {
 								error("Class '" + currentClass.getName() + "' does not have a member called '" + memberName + "'");
 							}
@@ -1019,7 +1055,7 @@ public class Compiler {
 					}
 				} else if(lexer.token == Token.IDCOLON) {
 					
-					String methodName = lexer.getStringValue();		
+					methodName = lexer.getStringValue();		
 					lexer.nextToken();
 					MethodDec m = null;
 					m = (MethodDec)symbolTable.getInClass(methodName); 
@@ -1032,7 +1068,8 @@ public class Compiler {
 					exprList = exprList();
 					checkParameters(exprList, m.getParamList(), methodName);
 					type = m.getReturnType();
-					
+					isMethod = m;
+
 				}else {
 					error("id or idcolon expected");
 				}
@@ -1041,7 +1078,11 @@ public class Compiler {
 			}
 		}
 		
-		return new PrimaryExpr(type);
+		if (type != Type.undefType) {
+			return new PrimaryExpr(type);
+		} else {
+			return null;
+		}
 		
 	}
 	private ReadExpr readExpr() {
@@ -1050,6 +1091,7 @@ public class Compiler {
 		if(lexer.token == Token.DOT) {
 			lexer.nextToken();
 			if (lexer.token == Token.ID && (lexer.getStringValue().equals("readInt") || lexer.getStringValue().equals("readString"))) {
+				isReadExpr = true;
 				if (lexer.getStringValue().equals("readInt")) {
 					lexer.nextToken();
 					return new ReadExpr(Type.intType);
@@ -1068,9 +1110,6 @@ public class Compiler {
 	}
 	private BasicValue basicValue() {
 		
-		//System.out.println(lexer.getLiteralStringValue());
-
-	
 		if (lexer.token == Token.LITERALSTRING) {
 			String s = lexer.getLiteralStringValue();
 			next();
@@ -1087,16 +1126,12 @@ public class Compiler {
 			boolean b = true;
 			next();
 			return new BasicValue(b);
-
-		}		
-		
+		}			
 		if (lexer.token == Token.FALSE) {
 			boolean b = false;
 			next();
 			return new BasicValue(b);
 		}
-		
-	
 		
 		error("Basic Value expected");
 		return null;
@@ -1105,16 +1140,12 @@ public class Compiler {
 	
 	private ArrayList<Expr> exprList() {
 		ArrayList<Expr> exprList = new ArrayList<>();
-
 		Expr e = null;
-		
 		e = expr();
-		
 		if (e == null)
 			error("Expression expected");
 			
 		exprList.add(e);
-		
 		while (lexer.token == Token.COMMA) {
 			lexer.nextToken();
 			e = expr();
@@ -1126,7 +1157,6 @@ public class Compiler {
 		return exprList;
 	}
 
-	
 	private ArrayList<Variable> fieldDec(Qualifier q) {
 		
 		lexer.nextToken();
@@ -1137,8 +1167,7 @@ public class Compiler {
 			this.error("A variable name was expected");
 		}
 		else {
-			while (true) {
-								
+			while (true) {				
 				if (lexer.token != Token.ID) 
 					error("Missing identifier");
 				
@@ -1153,11 +1182,8 @@ public class Compiler {
 	            }
 				
 	            symbolTable.putInClass(v.getName(), v);
-				
 				fieldList.add(v);
-				
 				next();
-				
 				if ( lexer.token == Token.COMMA ) {
 					lexer.nextToken();
 				} else if (lexer.token == Token.SEMICOLON) {
@@ -1165,18 +1191,13 @@ public class Compiler {
 				} else {
 					error("';' expected after field declaration");
 				}
-				
 			}
-				
 			lexer.nextToken();
 		}
-		
 		return fieldList;
-
 	}
 
 	private Type type() {
-		
 		Type type = null;
 		
 		if (lexer.token == Token.INT) {
@@ -1249,60 +1270,45 @@ public class Compiler {
 	}
 
 	private AssertStat assertStat() {
-
 		int lineNumber = lexer.getLineNumber();
-		
 		next();
-		
 		Expr e = expr();
-		
 		if (e == null) {
 			error("Assert expression expected");
 		}
-		
 		if (e.getType() != Type.booleanType) {
 			error("Assert expression must be boolean");
 		}
-		
 		if ( lexer.token != Token.COMMA ) {
 			this.error("',' expected after the expression of the 'assert' statement");
 		}
-		
 		next();
-		
 		if ( lexer.token != Token.LITERALSTRING ) {
 			this.error("A literal string expected after the ',' of the 'assert' statement");
 		}
-		
 		String message = lexer.getLiteralStringValue();
-		
 		next();
-		
 		return new AssertStat(e, message);
 	}
 
 	private LiteralInt literalInt() {
-
 		LiteralInt e = null;
-
-		// the number value is stored in lexer.getToken().value as an object of
-		// Integer.
-		// Method intValue returns that value as an value of type int.
 		int value = lexer.getNumberValue();
 		lexer.nextToken();
 		return new LiteralInt(value);
 	}
 
 	private boolean checkType(Type type1, Type type2) {
-		
 		if (type1 == null || type2 == null)
 			return false;
-		
 		if (type1 == type2) {
 			return true;
 		} 
-		
+		if ((type1 instanceof ClassDec && type2 == Type.nilType) || (type2 instanceof ClassDec && type1 == Type.nilType)) {
+			return true;
+		}
 		if (type1.getClass() == type2.getClass()) {
+			
 			if (type1 instanceof ClassDec) {
 				if (isSubclass((ClassDec) type1, (ClassDec) type2)) {
 					return true;
@@ -1311,17 +1317,14 @@ public class Compiler {
 				}
 			}
 		}
-
-		if (type1 == Type.stringType && type2 == Type.nilType) {
+		if ((type1 == Type.stringType && type2 == Type.nilType) || (type2 == Type.stringType && type1 == Type.nilType)) {
 			return true;
 		}
-	
-		return false;
 		
+		return false;
 	}
 	
-	private void checkParameters(ArrayList<Expr> list1, ArrayList<Variable> list2, String methodName) {
-		
+	private void checkParameters(ArrayList<Expr> list1, ArrayList<Variable> list2, String methodName) {	
 		if (list1.size() != list2.size()) {
 			error("The number of given parameters are incorrect in '" + methodName + "' method");
 		}
@@ -1334,74 +1337,52 @@ public class Compiler {
 		
 	}
 	
-	
-	private MethodDec searchMethod(ClassDec c, String methodName) {
-		
+	private MethodDec searchMethod(ClassDec c, String methodName) {	
 		Member method = (Member) symbolTable.getInClass(methodName);
 		if (method != null && method instanceof MethodDec && c == currentClass)
 			return (MethodDec) method;
-		
 		while (c != null) {
-			
 			ArrayList<MethodDec> memberList = c.getMethods();
-			
-			for (MethodDec m: memberList) {
-				
+			for (MethodDec m: memberList) {	
 				if (m.getMethodName().equals(methodName)) {
 					return m;
 				}
 			}
-			
-			c = c.getParent();
-			
+			c = c.getParent();	
 		}
-		
 		return null;
-		
 	}
 	
 	private Variable searchFields(ClassDec c, String fieldName) {
-		
 		Member field = (Member) symbolTable.getInClass(fieldName);
 		if (field != null && field instanceof Variable) {
 			return (Variable) field;
 		}
 		
-		while (c != null) {
-					
+		while (c != null) {	
 			ArrayList<Variable> memberList = c.getFields();
-			
 			for (Variable f: memberList) {
 				if (f.getName().equals(fieldName)) {
 					return f;
 				}
 			}
-			
-			c = c.getParent();
-				
+			c = c.getParent();	
 		}
-		
 		return null;
-			
 	}
 	
 	private boolean isSubclass(ClassDec c1, ClassDec c2) {
-		
 		ClassDec c = c2;
-		
 		while (c != null && c != c1) {
-			c = c2.getParent();
+			c = c.getParent();
 		}
-		
 		if (c != null && c == c1) {
 			return true;
 		}
-		
 		return false;
 	}
 
 	private static boolean startExpr(Token token) {
-
 		return token == Token.FALSE || token == Token.TRUE
 				|| token == Token.NOT || token == Token.SELF
 				|| token == Token.LITERALINT || token == Token.SUPER
@@ -1416,6 +1397,9 @@ public class Compiler {
 	private Lexer			lexer;
 	private ErrorSignaller	signalError;
 	private boolean  ehLoop;
+	private boolean haveRun;
 	private boolean ehvalido;
-
+	private MethodDec isMethod;
+	private boolean isReadExpr;
+	private boolean haveReturn;
 }

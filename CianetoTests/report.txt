@@ -1,0 +1,8 @@
+Relatório do Compilador
+
+1 erros foram sinalizados em 1 arquivos sem erro (100%)
+######################################################
+Erros que foram sinalizados mas não deveriam ter sido:
+
+testes/ok-calc.ci, 65, Type error on write expression: 'undefined' type cannot been written
+
