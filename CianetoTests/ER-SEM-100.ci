@@ -2,20 +2,20 @@
 Vitor Mesquita Fogaça
 vitor.fogaca@outlook.com
 */
-      
+@cep(2, "variable 'error' not found", "", "")
+
 class Teste
     var Int n;
-	
+    
     func get -> Int {
         return self.n;
     }
-	
+    
     func set: Int n {
         self.n = n;
     }
 end
 
-@cep(7, "variable 'error' not found");
 class Program
     func run {
         var Teste t;

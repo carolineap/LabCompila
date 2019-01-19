@@ -346,7 +346,7 @@ public class Compiler {
 		MethodDec m = new MethodDec(id, paramList, returnType, q);
 		
 		if (currentClass.getName().equals("Program")) {
-			if (m.getMethodName().equals("run")) {
+			if (m.getMethodName().equals("run") || m.getMethodName().equals("run:")) {
 				if (m.getQualifier().getToken1() == Token.PUBLIC) {
 					if (m.getParamList().isEmpty() == false || m.getReturnType() != null) {
 						error("Class 'Program' must have a public, parameterless and no return method called 'run'");
@@ -486,7 +486,13 @@ public class Compiler {
 			if (right == null)
 				error("Expression expected");			
 			if (!checkType(left.getType(), right.getType())) {
-				error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side: cannot assign " + right.getType().getName() + " to " + left.getType().getName());
+				if (left.getType() != null && right.getType() != null) {
+					error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side: cannot assign type " + right.getType().getName() + " to " + left.getType().getName());
+				} else if (right.getType() == null){
+					error("Expression expected in the right-hand side of assignment");
+				} else {
+					error("Type error: value of the right-hand side is not subtype of the variable of the left-hand side");	
+				}
 			}else if(ehvalido == false) {
 				error("error on letf-hand side of assignment, expected a variable or self.variable");
 			}
@@ -698,7 +704,7 @@ public class Compiler {
 			left = new CompositeExpr(left, op, right);
 			
 			if (left.getType() == Type.undefType) { 
-				error("Type error: cannot compare " + old.getName() + " and " + right.getType().getName());
+				error("Type error: cannot compare types " + old.getName() + " and " + right.getType().getName());
 			}
 			
 		}
@@ -720,7 +726,7 @@ public class Compiler {
 			left = new CompositeSimpleExpr(left, op, right);
 	
 			if (left.getType() == Type.undefType) {
-				error("Type error: cannot concat " + old.getName() + " and " + right.getType().getName());
+				error("Type error: cannot concat types " + old.getName() + " and " + right.getType().getName());
 			}
 			
 		}
@@ -1186,13 +1192,13 @@ public class Compiler {
 				next();
 				if ( lexer.token == Token.COMMA ) {
 					lexer.nextToken();
-				} else if (lexer.token == Token.SEMICOLON) {
-					break;
 				} else {
-					error("';' expected after field declaration");
-				}
+					break;
+				} 
 			}
-			lexer.nextToken();
+			
+			if (lexer.token == Token.SEMICOLON)
+				lexer.nextToken();
 		}
 		return fieldList;
 	}
