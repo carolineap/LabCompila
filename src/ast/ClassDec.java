@@ -67,6 +67,18 @@ public class ClassDec extends Type {
 		
 	}
 	
+	public boolean isSubclass(ClassDec c2) {
+	
+		ClassDec c = c2;
+		while (c != null && c != this) {
+			c = c.getParent();
+		}
+		if (c != null && c == this) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void setMemberList(ArrayList<Member> memberList) {
 		this.memberList = memberList;
 	}

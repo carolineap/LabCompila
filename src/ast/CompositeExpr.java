@@ -28,6 +28,14 @@ public class CompositeExpr extends Expr {
 			if ((leftType instanceof ClassDec && rightType == Type.nilType) || (rightType instanceof ClassDec && leftType == Type.nilType)) {
 				return Type.booleanType;
 			}
+			
+			if (leftType instanceof ClassDec && rightType instanceof ClassDec) {
+				ClassDec c1 = (ClassDec) leftType;
+				ClassDec c2 = (ClassDec) rightType;
+				if (c1.isSubclass(c2) || c2.isSubclass(c1)) {
+					return Type.booleanType;
+				}
+			}
 		}
 		
 		return Type.undefType;

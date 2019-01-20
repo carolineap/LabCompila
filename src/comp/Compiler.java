@@ -328,7 +328,7 @@ public class Compiler {
 				error("The signature of the method is different from the signature of the superclass");
 			
 			}else if(returnType != method.getReturnType()) {
-				error("The return type is different from the superclass");
+				error("The return type of '" + method.getMethodName() + "' is different from the superclass");
 			}
 			for(int i = 0; i < method.getParamList().size(); i++) {
 				if(paramList.get(i).getType() != method.getParamList().get(i).getType()) {
@@ -702,7 +702,7 @@ public class Compiler {
 			Type old = left.getType();
 			
 			left = new CompositeExpr(left, op, right);
-			
+		
 			if (left.getType() == Type.undefType) { 
 				error("Type error: cannot compare types " + old.getName() + " and " + right.getType().getName());
 			}
@@ -1316,7 +1316,8 @@ public class Compiler {
 		if (type1.getClass() == type2.getClass()) {
 			
 			if (type1 instanceof ClassDec) {
-				if (isSubclass((ClassDec) type1, (ClassDec) type2)) {
+				ClassDec c = (ClassDec) type1;
+				if (c.isSubclass((ClassDec) type2)) {
 					return true;
 				} else {
 					return false;
@@ -1377,16 +1378,6 @@ public class Compiler {
 		return null;
 	}
 	
-	private boolean isSubclass(ClassDec c1, ClassDec c2) {
-		ClassDec c = c2;
-		while (c != null && c != c1) {
-			c = c.getParent();
-		}
-		if (c != null && c == c1) {
-			return true;
-		}
-		return false;
-	}
 
 	private static boolean startExpr(Token token) {
 		return token == Token.FALSE || token == Token.TRUE
