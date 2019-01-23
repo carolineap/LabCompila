@@ -1,11 +1,10 @@
 /AssertStat.class
 /AssignExpr.class
+/AuxFactor.class
 /BasicValue.class
 /BreakStat.class
-/CianetoClass.class
 /ClassDec.class
 /CompositeExpr.class
-/CompositeFactor.class
 /CompositeSignalFactor.class
 /CompositeSimpleExpr.class
 /CompositeSumSubExpr.class
@@ -13,7 +12,6 @@
 /Expr.class
 /ExprFactor.class
 /Factor.class
-/FieldDec.class
 /IfStat.class
 /LiteralBoolean.class
 /LiteralInt.class
@@ -26,9 +24,10 @@
 /NullExpr.class
 /ObjectCreation.class
 /PW.class
-/Param.class
 /PrimaryExpr.class
 /Program.class
+/Qualifier.class
+/ReadExpr.class
 /RepeatStat.class
 /ReturnStat.class
 /SignalFactor.class
@@ -42,11 +41,6 @@
 /TypeNull.class
 /TypeString.class
 /TypeUndefined.class
+/Variable.class
 /WhileStat.class
 /WriteStat.class
-/AuxFactor.class
-/ReadExpr.class
-/Variable.class
-/TypeClass.class
-/VariableExpr.class
-/Qualifier.class

@@ -1,5 +1,4 @@
-@cep(20, "Teste para conferir se o lexico sinaliza o numero correto da linha com erro", 
-    "Unknown character", "lexer.Lexer.nextToken()")
+@cep(19, "Teste para conferir se o lexico sinaliza o numero correto da linha com erro", "Unknown character", "lexer.Lexer.nextToken()")
 
 
 /*   @filename  er-lex05.kra
@@ -18,7 +17,7 @@ class A        // 10
       //       13:
       // confira se, apesar dos comentarios, o compilador diz que o numero
       // da linha com erro 'e 16
-       #########################     //#
+       #########################   //#
     }
 
 end
