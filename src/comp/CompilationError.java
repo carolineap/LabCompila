@@ -6,7 +6,7 @@ package comp;
 /**
  * a compilation error
  * 
-   @author José
+   @author JosÃ©
  */
 public class CompilationError {
 

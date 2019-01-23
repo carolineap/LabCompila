@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * end <br>
  * </code>
  *
-   @author José
+   @author JosÃ©
 
  */
 public class MetaobjectAnnotation {

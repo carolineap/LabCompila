@@ -69,6 +69,11 @@ public class SymbolTable {
          localTable.clear();
     }
     
+    public void removeSuperTableIdent() {
+        // remove all local identifiers from the table
+      superClassTable.clear();
+ }
+    
     public void removeClassIdent() {
         // remove all local identifiers from the table
      classTable.clear();

@@ -79,7 +79,7 @@ public class Compiler {
 		
 		if ( !thereWasAnError && haveRun == false) {
 			try {
-				error("Every program must have a class named 'Program' with a public parameterless method called 'run'");
+				this.signalError.showError("Every program must have a class named 'Program' with a public parameterless method called 'run'", true);
 			} catch( CompilerError e) {
 			}
 		}
@@ -197,7 +197,7 @@ public class Compiler {
 				ArrayList<Member> memberlist = aux.getMembers();
 				for(int i = 0; i < memberlist.size(); i++) {
 					Member m = memberlist.get(i);
-					if(m instanceof MethodDec) {
+					if(m instanceof MethodDec &&((MethodDec) m).getQualifier().isPublic()) {
 						symbolTable.putInSuperClassTable(((MethodDec)m).getMethodName(), m);
 					}
 				}
@@ -217,7 +217,8 @@ public class Compiler {
 		
 		if (ml == null || lexer.token != Token.END)
 			error("Class member or 'end' expected");
-		lexer.nextToken();
+		
+		
 		
 		if (currentClass.getName().equals("Program")) {
         	
@@ -234,6 +235,10 @@ public class Compiler {
 			}
 		
 		}
+		
+		lexer.nextToken();
+		
+		symbolTable.removeSuperTableIdent();
 		
 		symbolTable.removeClassIdent();
 
@@ -463,7 +468,9 @@ public class Compiler {
 		}
 				
 		if ( checkSemiColon ) {
-			check(Token.SEMICOLON, "';' expected");
+			if (lexer.token != Token.SEMICOLON) {
+				this.signalError.showError("';' expected", true);
+			}
 			lexer.nextToken();
 		}
 		

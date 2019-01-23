@@ -15,6 +15,17 @@ public class Qualifier {
 		this.token2 = t3;
 	}
 	
+	public boolean isPublic() {
+		
+		if (this.token1 == Token.PUBLIC || this.token2 == Token.PUBLIC || this.token3 == Token.PUBLIC) {
+			return true;
+		}
+	
+		return false;
+		
+	}
+	
+	
 	public Token getToken1() {
 		return this.token1;
 	}

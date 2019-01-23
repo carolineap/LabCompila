@@ -262,7 +262,7 @@ public class Lexer {
                        token = Token.LITERALSTRING;
                        break;
                     default :
-                      error.showError("Invalid Character: '" + ch + "'", false);
+                      error.showError("Invalid Character: '" + ch + "'");
                 }
             }
           }
